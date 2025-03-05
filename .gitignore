@@ -61,3 +61,46 @@ junit
 .gitconfig
 .npm
 .test_durations
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environment
+venv/
+ENV/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# CKAN specific
+ckan-templates/
+datastore_permissions.sql
+data/
+.env
+*.log
+
+# OS specific
+.DS_Store
+Thumbs.db
