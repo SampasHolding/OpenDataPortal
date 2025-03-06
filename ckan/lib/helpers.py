@@ -2884,3 +2884,23 @@ def make_login_url(
 @core_helper
 def csrf_input():
     return snippet('snippets/csrf_input.html')
+
+
+@core_helper
+def get_user_role_in_org(organization_id: str) -> Optional[str]:
+    """Kullanıcının organizasyondaki rolünü döndürür."""
+    if not organization_id or not g.userobj:
+        return None
+    
+    # Önce kullanıcının sistem yöneticisi olup olmadığını kontrol et
+    if g.userobj.sysadmin:
+        return 'admin'
+    
+    member = model.Session.query(model.Member).filter(
+        model.Member.table_name == 'user',
+        model.Member.state == 'active',
+        model.Member.table_id == g.userobj.id,
+        model.Member.group_id == organization_id
+    ).first()
+    
+    return member.capacity if member else None
