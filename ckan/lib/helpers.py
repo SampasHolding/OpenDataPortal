@@ -2904,3 +2904,14 @@ def get_user_role_in_org(organization_id: str) -> Optional[str]:
     ).first()
     
     return member.capacity if member else None
+
+
+@core_helper
+def get_groups():
+    """Tüm grupları getir"""
+    try:
+        context = {'model': model, 'session': model.Session}
+        groups = logic.get_action('group_list')(context, {'all_fields': True})
+        return groups
+    except:
+        return []

@@ -16036,9 +16036,10 @@ td.diff_header {
   margin-top: 0;
 }
 
+
 @media (min-width: 576px) {
   .hero {
-    background: url("../../../base/images/background-tile.png");
+    background: url("../../../base/images/hero-bg.jpg");
   }
 }
 
@@ -16050,7 +16051,7 @@ td.diff_header {
   background-image: -webkit-linear-gradient(top, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
   background-image: -o-linear-gradient(top, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
   background-image: linear-gradient(top, rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0));
-  background-repeat: repeat-x;
+  background-repeat: no repeat;
   background-color: #f6f6f6;
   border-bottom: 1px solid #d0d0d0;
   border-radius: 3px 3px 0 0;
@@ -16164,7 +16165,7 @@ td.diff_header {
 }
 
 .homepage .hero {
-  background: url("../../../base/images/background-tile.png");
+  background: url("../../../base/images/hero-bg.jpg");
   padding: 20px 0;
 }
 
@@ -16368,6 +16369,7 @@ td.diff_header {
 
 .masthead .navbar .logo {
   display: inline-block;
+  border-radius: 40%;
 }
 
 .masthead .navbar .logo img {
