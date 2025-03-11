@@ -1,0 +1,108 @@
+{% extends "organization/edit_base.html" %}
+
+{% import 'macros/form.html' as form %}
+
+{% set user = user_dict %}
+
+{% block subtitle %}{{ _('Üye Düzenle') if user else _('Üye Ekle') }} {{ g.template_title_delimiter }} {{ super() }}{%
+endblock %}
+
+{% block primary_content_inner %}
+{% link_for _('Back to all members'), named_route=group_type+'.manage_members', id=organization.name, class_='btn
+btn-secondary pull-right', icon='arrow-left' %}
+<h1 class="page-heading">
+  {% block page_heading %}{{ _('Üye Düzenle') if user else _('Üye Ekle') }}{% endblock %}
+</h1>
+{% block form %}
+<form class="dataset-form add-member-form" method='post'>
+  {{ h.csrf_input() }}
+  <div class="row align-items-center">
+    <div class="col-md-5">
+      <div class="form-group control-medium">
+        {% if not user %}
+        <label class="form-label" for="username">
+          {{ _('Mevcut Kullanıcı') }}
+        </label>
+        <p>
+          {{ _('Eğer mevcut bir kullanıcı eklemek istiyorsanız, aşağıda onun kullanıcı adını arayın.') }}
+        </p>
+        {% endif %}
+        <div class="controls">
+          {% if user %}
+          <input type="hidden" name="username" value="{{ user.name }}" />
+          <input id="username" name="username" type="text" value="{{ user.name }}" disabled="True" class="form-control">
+          {% else %}
+          <input id="username" type="text" name="username" placeholder="{{ _('Kullanıcı Adı') }}" value=""
+            class="control-medium" data-module="autocomplete"
+            data-module-source="/api/2/util/user/autocomplete?ignore_self=true&q=?">
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% if not user and h.check_access('user_create') %}
+    <div class="col-md-2">
+      <div class="add-member-or">
+        {{ _('or') }}
+      </div>
+    </div>
+    <div class="col-md-5">
+      <div class="form-group control-medium">
+        <label class="form-label" for="email">
+          {{ _('Yeni Kullanıcı') }}
+        </label>
+        <p>
+          {{ _('Yeni bir kullanıcı davet etmek istiyorsanız, onun e-posta adresini girin.') }}
+        </p>
+        <div class="controls">
+          <input id="email" type="email" name="email" class="form-control" placeholder="{{ _('E-posta Adresi') }}">
+        </div>
+      </div>
+    </div>
+    {% endif %}
+  </div>
+
+  {% if user and user.name == c.user and user_role == 'admin' %}
+  {% set format_attrs = {'data-module': 'autocomplete', 'disabled': 'disabled'} %}
+  {{ form.select('role', label=_('Role'), options=roles, selected=user_role, error='', attrs=format_attrs) }}
+  {{ form.hidden('role', value=user_role) }}
+  {% else %}
+  {% set format_attrs = {'data-module': 'autocomplete'} %}
+  {{ form.select('role', label=_('Role'), options=roles, selected=user_role, error='', attrs=format_attrs) }}
+  {% endif %}
+
+  <div class="form-actions">
+    {% if user %}
+    <a href="{{ h.url_for(group_type + '.member_delete', id=group_dict.id, user=user.id) }}"
+      class="btn btn-danger pull-left" data-module="confirm-action"
+      data-module-content="{{ _('Bu üyeyi silmek istediğinize emin misiniz?') }}">{{ _('Sil') }}</a>
+    <button class="btn btn-primary" type="submit" name="submit">
+      {{ _('Üye Güncelle') }}
+    </button>
+    {% else %}
+    <button class="btn btn-primary" type="submit" name="submit">
+      {{ _('Üye Ekle') }}
+    </button>
+    {% endif %}
+  </div>
+</form>
+{% endblock %}
+{% endblock %}
+
+{% block secondary_content %}
+{{ super() }}
+<div class="module module-narrow module-shallow">
+  <h2 class="module-heading">
+    <i class="fa fa-lg fa-info-circle"></i>
+    {{ _('Roller Neleri Anlama?') }}
+  </h2>
+  <div class="module-content">
+    {% trans %}
+    <p><strong>Admin:</strong> Veri setlerini ekleyebilir, düzenleyebilir ve siler, aynı zamanda
+      organizasyon üyelerini yönetebilir.</p>
+    <p><strong>Editor:</strong> Veri setlerini ekleyebilir ve düzenleyebilir, ancak organizasyon üyelerini yönetemez.
+    </p>
+    <p><strong>Üye:</strong> Özel veri setlerini görüntüleyebilir, ancak yeni veri setleri ekleyemez.</p>
+    {% endtrans %}
+  </div>
+</div>
+{% endblock %}

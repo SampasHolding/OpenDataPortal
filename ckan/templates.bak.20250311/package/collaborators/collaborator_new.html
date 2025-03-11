@@ -1,0 +1,81 @@
+{% extends "package/edit_base.html" %}
+
+{% import 'macros/form.html' as form %}
+
+{% block subtitle %}{{ _('Katılımcı Düzenle') if user else _('Katılımcı Ekle') }} - {{ super() }}{% endblock %}
+
+{% block primary_content_inner %}
+{% link_for _('Tüm Katılımcılar'), named_route='dataset.collaborators_read', id=pkg_dict.name, class_='btn btn-secondary
+pull-right', icon='arrow-left' %}
+<h1 class="page-heading">
+  {% block page_heading %}{{ _('Katılımcı Düzenle') if user else _('Katılımcı Ekle') }}{% endblock %}
+</h1>
+{% block form %}
+<form class="add-member-form" method='post'>
+  {{ h.csrf_input() }}
+  <div class="row">
+    <div class="col-md-5">
+      <div class="form-group control-medium">
+        {% if not user %}
+        <label class="form-label" for="username">
+          {{ _('Mevcut Kullanıcı') }}
+        </label>
+        <p>
+          {{ _('Eğer mevcut bir kullanıcı eklemek isterseniz, aşağıda onun kullanıcı adını arayın.') }}
+        </p>
+        {% endif %}
+        <div class="controls">
+          {% if user %}
+          <input type="hidden" name="username" value="{{ user.name }}" />
+          <input id="username" name="username" type="text" value="{{ user.name }}" disabled="True" class="form-control">
+          {% else %}
+          <input id="username" type="text" name="username" placeholder="{{ _('Kullanıcı Adı') }}" value=""
+            class="control-medium" data-module="autocomplete" data-module-source="/api/2/util/user/autocomplete?q=?">
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% set format_attrs = {'data-module': 'autocomplete'} %}
+  {{ form.select('capacity', label=_('Rol'), options=capacities, selected=user_capacity, error='', attrs=format_attrs)
+  }}
+  <div class="form-actions">
+    {% if user %}
+    <a href="{{ h.url_for('dataset.collaborator_delete', id=pkg_dict.id, user_id=user.name) }}"
+      class="btn btn-danger pull-left" data-module="confirm-action"
+      data-module-content="{{ _('Bu katılımcıyı silmek istediğinize emin misiniz?') }}">{{ _('Sil') }}</a>
+    <button class="btn btn-primary" type="submit" name="submit">
+      {{ _('Katılımcıyı Güncelle') }}
+    </button>
+    {% else %}
+    <button class="btn btn-primary" type="submit" name="submit">
+      {{ _('Katılımcı Ekle') }}
+    </button>
+    {% endif %}
+  </div>
+</form>
+{% endblock %}
+{% endblock %}
+
+{% block secondary_content %}
+{{ super() }}
+<div class="module module-narrow module-shallow">
+  <h2 class="module-heading">
+    <i class="fa fa-lg fa-info-circle"></i>
+    {{ _('Mevcut Roller Nelerdir?') }}
+  </h2>
+  <div class="module-content">
+    {% if h.check_config_permission('allow_admin_collaborators') %}
+    {% trans %}
+    <p><strong>Admin:</strong> Veri setini yönetmek için, yöneticiler veri setine katılımcı ekleyebilir ve kaldırabilir.
+    </p>
+    {% endtrans %}
+    {% endif %}
+    {% trans %}
+    <p><strong>Editör:</strong> Editörler veri setini ve kaynaklarını düzenleyebilir, ayrıca özel veri setine
+      erişebilir.</p>
+    <p><strong>Üye:</strong> Üyeler özel veri setine erişebilir, ancak düzenleyemez.</p>
+    {% endtrans %}
+  </div>
+  {% endblock %}

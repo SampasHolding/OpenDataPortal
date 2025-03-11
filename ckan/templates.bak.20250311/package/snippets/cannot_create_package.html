@@ -1,0 +1,28 @@
+{% extends "package/base_form_page.html" %}
+
+{% block primary_content %}
+
+{% block page_header %}{% endblock %}
+<section class="module">
+  <div class="module-content">
+    {% block primary_content_inner %}
+    {% if h.check_access('organization_create') %}
+    <div class="alert alert-warning">{{ _('Veri seti oluşturmak için önce bir organizasyon oluşturmanız gerekir.') }}
+    </div>
+
+    <a class='btn btn-primary' href="{{ h.url_for('organization.new') }}">
+      {{ _('Yeni bir organizasyon oluştur') }}
+    </a>
+
+    {% else %}
+    <div class="alert alert-danger">
+      <p> {{ _('Bu veri setini atamak için hiçbir organizasyon yok.') }} </p>
+      <p>{{ _('Devam etmek için bir sistem yöneticisiyle bir organizasyon oluşturun.') }}</p>
+    </div>
+
+    {% endif %}
+
+    {% endblock %}
+  </div>
+</section>
+{% endblock %}

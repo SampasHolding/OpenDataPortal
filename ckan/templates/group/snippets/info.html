@@ -4,33 +4,34 @@
 <section id="group-info" class="module module-narrow">
   <div class="module context-info">
     <div class="module-content">
-    {% block inner %}
-    {% block image %}
-    <div class="image">
-      <a href="{{ group.url }}">
-        <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" width="190" height="118" alt="{{ group.name }}" />
-      </a>
-    </div>
-    {% endblock %}
-    {% block heading %}
-    <h1 class="heading">
-      {{ group.display_name }}
-      {% if group.state == 'deleted' %}
+      {% block inner %}
+      {% block image %}
+      <div class="image">
+        <a href="{{ group.url }}">
+          <img src="{{ group.image_display_url or h.url_for_static('/base/images/placeholder-group.png') }}" width="190"
+            height="118" alt="{{ group.name }}" />
+        </a>
+      </div>
+      {% endblock %}
+      {% block heading %}
+      <h1 class="heading">
+        {{ group.display_name }}
+        {% if group.state == 'deleted' %}
         [{{ _('Deleted') }}]
-      {% endif %}
-    </h1>
-    {% endblock %}
-    {% block description %}
-    {% if group.description %}
+        {% endif %}
+      </h1>
+      {% endblock %}
+      {% block description %}
+      {% if group.description %}
       <p class="description">
         {{ h.markdown_extract(group.description, 180) }}
       </p>
       <p class="read-more">
         {% link_for _('read more'), named_route='group.about', id=group.name %}
       </p>
-    {% endif %}
-    {% endblock %}
-    {% if show_nums %}
+      {% endif %}
+      {% endblock %}
+      {% if show_nums %}
       {% block nums %}
       {% set num_followers = h.follow_count('group', group.id) %}
       <div class="nums">
@@ -49,15 +50,15 @@
       </div>
       {% endblock %}
       {% block follow %}
-        {% if current_user.is_authenticated %}
-          {% if error_message %}
-            <div class="alert alert-danger">{{ error_message }}</div>
-          {% endif %}
-          {% snippet 'snippets/follow_button.html', am_following=am_following, obj_type='group', obj_id=group.id %}
-        {% endif %}
+      {% if current_user.is_authenticated %}
+      {% if error_message %}
+      <div class="alert alert-danger">{{ error_message }}</div>
+      {% endif %}
+      {% snippet 'snippets/follow_button.html', am_following=am_following, obj_type='group', obj_id=group.id %}
+      {% endif %}
       {% endblock %}
-    {% endif %}
-    {% endblock %}
+      {% endif %}
+      {% endblock %}
     </div>
   </div>
 </section>

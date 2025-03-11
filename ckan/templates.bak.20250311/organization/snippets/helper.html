@@ -1,0 +1,27 @@
+{#
+Displays a sidebard module with information about organizations.
+
+group_type - The type of organization.
+
+Example:
+
+{% snippet "organization/snippets/helper.html", group_type=group_type %}
+
+#}
+
+
+<div class="module module-narrow module-shallow">
+  <h2 class="module-heading">
+    <i class="fa fa-info-circle"></i>
+    {{ _('Organizasyonlar neler?') }}
+  </h2>
+  <div class="module-content">
+    <p>
+      {% trans %}
+      CKAN Organizasyonlar, veri setleri oluşturmak, yönetmek ve yayınlamak için kullanılır. Kullanıcılar,
+      farklı rollerde bir Organizasyon içinde bulunabilir, bu roller, veri setleri oluşturma, düzenleme ve yayınlamaya
+      yetkisi olup olmadıklarına bağlıdır.
+      {% endtrans %}
+    </p>
+  </div>
+</div>

@@ -1,0 +1,303 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Welcome') }}{% endblock %}
+
+{% block maintag %}{% endblock %}
+{% block toolbar %}{% endblock %}
+
+{% block content %}
+<div class="homepage">
+  <!-- Hero Section -->
+  <div class="hero">
+    <div class="container">
+      <div class="hero-content text-center">
+        <h1>{{ _('Açık Veri Platformu') }}</h1>
+        <form class="search-form" action="{{ h.url_for('dataset.search') }}" method="get">
+          <div class="search-input">
+            <input type="text" class="form-control" name="q" placeholder="{{ _('Herkese Açık Verileri Ara') }}">
+            <button type="submit" class="btn btn-primary">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Categories Section -->
+  <div class="categories-section">
+    <div class="container">
+      <div class="row text-center">
+        <!-- Afet Acil Durum Yönetimi -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='afet-acil') }}">
+            <div class="category-icon">
+              <i class="fa fa-warning"></i>
+            </div>
+            <h4>{{ _('Afet Acil Durum Yönetimi') }}</h4>
+          </a>
+        </div>
+
+        <!-- Altyapı -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='altyapi') }}">
+            <div class="category-icon">
+              <i class="fa fa-road"></i>
+            </div>
+            <h4>{{ _('Altyapı') }}</h4>
+          </a>
+        </div>
+
+        <!-- Bilgi Güvenliği -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='bilgi-guvenligi') }}">
+            <div class="category-icon">
+              <i class="fa fa-shield"></i>
+            </div>
+            <h4>{{ _('Bilgi Güvenliği') }}</h4>
+          </a>
+        </div>
+
+        <!-- Bilgi Teknolojileri -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='bilgi-teknolojileri') }}">
+            <div class="category-icon">
+              <i class="fa fa-laptop"></i>
+            </div>
+            <h4>{{ _('Bilgi Teknolojileri') }}</h4>
+          </a>
+        </div>
+
+        <!-- CBS -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='cbs') }}">
+            <div class="category-icon">
+              <i class="fa fa-map"></i>
+            </div>
+            <h4>{{ _('CBS') }}</h4>
+          </a>
+        </div>
+
+        <!-- Çevre -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='cevre') }}">
+            <div class="category-icon">
+              <i class="fa fa-leaf"></i>
+            </div>
+            <h4>{{ _('Çevre') }}</h4>
+          </a>
+        </div>
+
+        <!-- Ekonomi -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='ekonomi') }}">
+            <div class="category-icon">
+              <i class="fa fa-line-chart"></i>
+            </div>
+            <h4>{{ _('Ekonomi') }}</h4>
+          </a>
+        </div>
+
+        <!-- Enerji -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='enerji') }}">
+            <div class="category-icon">
+              <i class="fa fa-bolt"></i>
+            </div>
+            <h4>{{ _('Enerji') }}</h4>
+          </a>
+        </div>
+
+        <!-- Güvenlik -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='guvenlik') }}">
+            <div class="category-icon">
+              <i class="fa fa-lock"></i>
+            </div>
+            <h4>{{ _('Güvenlik') }}</h4>
+          </a>
+        </div>
+
+        <!-- İletişim -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='iletisim') }}">
+            <div class="category-icon">
+              <i class="fa fa-comments"></i>
+            </div>
+            <h4>{{ _('İletişim') }}</h4>
+          </a>
+        </div>
+
+        <!-- İnsan -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='insan') }}">
+            <div class="category-icon">
+              <i class="fa fa-users"></i>
+            </div>
+            <h4>{{ _('İnsan') }}</h4>
+          </a>
+        </div>
+
+        <!-- Mekan Yönetimi -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='mekan-yonetimi') }}">
+            <div class="category-icon">
+              <i class="fa fa-building"></i>
+            </div>
+            <h4>{{ _('Mekan Yönetimi') }}</h4>
+          </a>
+        </div>
+
+        <!-- Sağlık -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='saglik') }}">
+            <div class="category-icon">
+              <i class="fa fa-medkit"></i>
+            </div>
+            <h4>{{ _('Sağlık') }}</h4>
+          </a>
+        </div>
+
+        <!-- Ulaşım -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='ulasim') }}">
+            <div class="category-icon">
+              <i class="fa fa-bus"></i>
+            </div>
+            <h4>{{ _('Ulaşım') }}</h4>
+          </a>
+        </div>
+
+        <!-- Yapılar -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='yapilar') }}">
+            <div class="category-icon">
+              <i class="fa fa-home"></i>
+            </div>
+            <h4>{{ _('Yapılar') }}</h4>
+          </a>
+        </div>
+
+        <!-- Yönetişim -->
+        <div class="col-md-3 col-sm-4 category-item">
+          <a href="{{ h.url_for('dataset.search', groups='yonetisim') }}">
+            <div class="category-icon">
+              <i class="fa fa-sitemap"></i>
+            </div>
+            <h4>{{ _('Yönetişim') }}</h4>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<style>
+  .homepage {
+    background-color: #fff;
+  }
+
+  .hero {
+    background-image: url('/images/hero-bg.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    padding: 100px 0;
+    position: relative;
+    color: rgb(207, 0, 0);
+    text-align: center;
+    min-height: 400px;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.185);
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+    margin-bottom: 30px;
+    color: white;
+  }
+
+  .search-form {
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .search-input {
+    display: flex;
+    background: white;
+    border-radius: 20px;
+    overflow: hidden;
+    padding: 5px;
+  }
+
+  .search-input input {
+    flex: 1;
+    border: none;
+    padding: 15px 20px;
+    font-size: 16px;
+    border-radius: 25px 0 0 25px;
+  }
+
+  .search-input button {
+    padding: 15px 30px;
+    border: none;
+    background: #0072bc;
+    color: white;
+    border-radius: 0 25px 25px 0;
+  }
+
+  .categories-section {
+    padding: 60px 0;
+  }
+
+  .category-item {
+    margin-bottom: 30px;
+    transition: transform 0.3s;
+  }
+
+  .category-item:hover {
+    transform: translateY(-5px);
+  }
+
+  .category-item a {
+    text-decoration: none;
+    color: #333;
+    display: block;
+    padding: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .category-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+    color: #0072bc;
+  }
+
+  .category-item h4 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 500;
+  }
+</style>
+{% endblock %}
