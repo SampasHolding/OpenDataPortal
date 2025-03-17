@@ -66,7 +66,15 @@
         {% block header_account_notlogged %}
         <li>{% link_for _('Giriş Yap'), named_route='user.login' %}</li>
         {% if h.check_access('user_create') %}
-        <li>{% link_for _('Kayıt Ol'), named_route='user.register', class_='sub' %}</li>
+        <li><b>{% link_for _('Kayıt Ol'), named_route='user.register', class_='sub' %}</b></li>
+
+        <li class="language-selector" style="display: inline-block;">
+          <a href="{{ h.url_for(request.endpoint, locale='en') }}"
+            class="lang-btn {% if request.blueprint != 'user' %}{% endif %}" style="display: inline-block;">EN</a>
+          <a href="{{ h.url_for(request.endpoint, locale='tr') }}"
+            class="lang-btn {% if request.blueprint != 'user' %}{% endif %}" style="display: inline-block;">TR</a>
+        </li>
+
         {% endif %}
         {% endblock %}
       </ul>
@@ -79,19 +87,15 @@
 
 <header class="masthead">
   <div class="container">
-    {% block header_debug %}
-    {% if g.debug and not g.debug_supress_header %}
-    <div class="debug">Blueprint : {{ g.blueprint }}<br />View : {{ g.view }}</div>
-    {% endif %}
-    {% endblock %}
-
     <nav class="navbar navbar-expand-lg navbar-light">
       <hgroup class="{{ g.header_class }} navbar-left">
         {% block header_logo %}
         {% if g.site_logo %}
         <a class="logo" href="{{ h.url_for('home.index') }}">
-          <img src="{{ h.url_for_static_or_external(g.site_logo) }}" alt="{{ g.site_title }}"
-            aria-label="{{ _('Navigate to Home - {site_title}').format(site_title=g.site_title) }}" />
+          <div class="png-placeholder"
+            style="width: 200px; height: 50px; border: 1px dashed #ccc; display: flex; align-items: center; justify-content: center;">
+            PNG
+          </div>
         </a>
         {% else %}
         <h1>
@@ -119,37 +123,52 @@
           {% if c.userobj and c.userobj.sysadmin %}
           {{ h.build_nav_main(
           ('role.index', _('Roller')),
-          (dataset_type ~ '.search', _('Veri Setleri')),
+          (dataset_type ~ '.search', _('Tüm Veri Setleri')),
           (org_type ~ '.index', _('Organizasyonlar')),
           (group_type ~ '.index', _('Gruplar'))
           ) }}
           {% else %}
           {{ h.build_nav_main(
-          (dataset_type ~ '.search', _('Veri Setleri')),
+          (dataset_type ~ '.search', _('Tüm Veri Setleri')),
+          (dataset_type ~ '.search', _('Gösterge paneli')),
           (org_type ~ '.index', _('Organizasyonlar')),
-          (group_type ~ '.index', _('Gruplar'))
+          (dataset_type ~ '.search', _('Veri İstekleri'))
           ) }}
           {% endif %}
           {% endblock %}
           {% endblock %}
         </ul>
 
-        {% block header_site_search %}
-        <form class="d-flex site-search" action="{% url_for dataset_type ~ '.search' %}" method="get">
-          <label class="d-none" for="field-sitewide-search">
-            {% block header_site_search_label %}
-            {{ _('Veri Setlerinde Ara...') }}
-            {% endblock %}
-          </label>
-          <input id="field-sitewide-search" class="form-control me-2" type="text" name="q" placeholder="{{ _('Ara') }}"
-            aria-label="{{ _('Veri setlerinde ara...') }}" />
-          <button class="btn" type="submit" aria-label="{{ _('Ara') }}">
-            <i class="fa fa-search"></i>
-          </button>
-        </form>
-        {% endblock %}
       </div>
     </nav>
   </div>
 </header>
 {% endblock %}
+
+<style>
+  .language-selector {
+    display: inline-block;
+    margin-right: -100px;
+  }
+
+  .language-selector :nth-child(1) {
+    border-right: 1px solid #fff;
+  }
+
+
+  .lang-btn {
+    color: #fff;
+    text-decoration: none;
+    padding: 2px 5px;
+    font-size: 14px;
+  }
+
+  .lang-btn:hover {
+    color: #e6e6e6;
+    text-decoration: none;
+  }
+
+  .lang-btn.active {
+    font-weight: bold;
+  }
+</style>

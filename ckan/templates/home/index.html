@@ -14,7 +14,8 @@
         <h1>{{ _('Açık Veri Platformu') }}</h1>
         <form class="search-form" action="{{ h.url_for('dataset.search') }}" method="get">
           <div class="search-input">
-            <input type="text" class="form-control" name="q" placeholder="{{ _('Herkese Açık Verileri Ara') }}">
+            <input type="text" class="form-control" name="q" placeholder="{{ _('Herkese Açık Verileri Ara') }}"
+              autocomplete="off">
             <button type="submit" class="btn btn-primary">
               <i class="fa fa-search"></i>
             </button>
@@ -27,162 +28,163 @@
   <!-- Categories Section -->
   <div class="categories-section">
     <div class="container">
-      <div class="row text-center">
+      <!-- Yeni grid container: 8 sütun ve 2 satır -->
+      <div class="categories-grid">
         <!-- Afet Acil Durum Yönetimi -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='afet-acil') }}">
             <div class="category-icon">
-              <i class="fa fa-warning"></i>
+              <img src="/base/images/Groups/afet-yardim.png" alt="Afet Acil Durum Yönetimi">
             </div>
             <h4>{{ _('Afet Acil Durum Yönetimi') }}</h4>
           </a>
         </div>
 
         <!-- Altyapı -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='altyapi') }}">
             <div class="category-icon">
-              <i class="fa fa-road"></i>
+              <img src="/base/images/Groups/altyapi.png" alt="Altyapı">
             </div>
             <h4>{{ _('Altyapı') }}</h4>
           </a>
         </div>
 
         <!-- Bilgi Güvenliği -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='bilgi-guvenligi') }}">
             <div class="category-icon">
-              <i class="fa fa-shield"></i>
+              <img src="/base/images/Groups/bilgi-guvenligi.png" alt="Bilgi Güvenliği">
             </div>
             <h4>{{ _('Bilgi Güvenliği') }}</h4>
           </a>
         </div>
 
         <!-- Bilgi Teknolojileri -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='bilgi-teknolojileri') }}">
             <div class="category-icon">
-              <i class="fa fa-laptop"></i>
+              <img src="/base/images/Groups/bilgi-teknolojileri.png" alt="Bilgi Teknolojileri">
             </div>
             <h4>{{ _('Bilgi Teknolojileri') }}</h4>
           </a>
         </div>
 
         <!-- CBS -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='cbs') }}">
             <div class="category-icon">
-              <i class="fa fa-map"></i>
+              <img src="/base/images/Groups/cbs.png" alt="CBS">
             </div>
             <h4>{{ _('CBS') }}</h4>
           </a>
         </div>
 
         <!-- Çevre -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='cevre') }}">
             <div class="category-icon">
-              <i class="fa fa-leaf"></i>
+              <img src="/base/images/Groups/cevre.png" alt="Çevre">
             </div>
             <h4>{{ _('Çevre') }}</h4>
           </a>
         </div>
 
         <!-- Ekonomi -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='ekonomi') }}">
             <div class="category-icon">
-              <i class="fa fa-line-chart"></i>
+              <img src="/base/images/Groups/ekonomi.png" alt="Ekonomi">
             </div>
             <h4>{{ _('Ekonomi') }}</h4>
           </a>
         </div>
 
         <!-- Enerji -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='enerji') }}">
             <div class="category-icon">
-              <i class="fa fa-bolt"></i>
+              <img src="/base/images/Groups/enerji.png" alt="Enerji">
             </div>
             <h4>{{ _('Enerji') }}</h4>
           </a>
         </div>
 
         <!-- Güvenlik -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='guvenlik') }}">
             <div class="category-icon">
-              <i class="fa fa-lock"></i>
+              <img src="/base/images/Groups/guvenlik.png" alt="Güvenlik">
             </div>
             <h4>{{ _('Güvenlik') }}</h4>
           </a>
         </div>
 
         <!-- İletişim -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='iletisim') }}">
             <div class="category-icon">
-              <i class="fa fa-comments"></i>
+              <img src="/base/images/Groups/iletisim.png" alt="İletişim">
             </div>
             <h4>{{ _('İletişim') }}</h4>
           </a>
         </div>
 
         <!-- İnsan -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='insan') }}">
             <div class="category-icon">
-              <i class="fa fa-users"></i>
+              <img src="/base/images/Groups/insan.png" alt="İnsan">
             </div>
             <h4>{{ _('İnsan') }}</h4>
           </a>
         </div>
 
         <!-- Mekan Yönetimi -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='mekan-yonetimi') }}">
             <div class="category-icon">
-              <i class="fa fa-building"></i>
+              <img src="/base/images/Groups/mekan-yonetimi.png" alt="Mekan Yönetimi">
             </div>
             <h4>{{ _('Mekan Yönetimi') }}</h4>
           </a>
         </div>
 
         <!-- Sağlık -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='saglik') }}">
             <div class="category-icon">
-              <i class="fa fa-medkit"></i>
+              <img src="/base/images/Groups/saglik.png" alt="Sağlık">
             </div>
             <h4>{{ _('Sağlık') }}</h4>
           </a>
         </div>
 
         <!-- Ulaşım -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='ulasim') }}">
             <div class="category-icon">
-              <i class="fa fa-bus"></i>
+              <img src="/base/images/Groups/ulasim.png" alt="Ulaşım">
             </div>
             <h4>{{ _('Ulaşım') }}</h4>
           </a>
         </div>
 
         <!-- Yapılar -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='yapilar') }}">
             <div class="category-icon">
-              <i class="fa fa-home"></i>
+              <img src="/base/images/Groups/yapilar.png" alt="Yapılar">
             </div>
             <h4>{{ _('Yapılar') }}</h4>
           </a>
         </div>
 
         <!-- Yönetişim -->
-        <div class="col-md-3 col-sm-4 category-item">
+        <div class="category-item">
           <a href="{{ h.url_for('dataset.search', groups='yonetisim') }}">
             <div class="category-icon">
-              <i class="fa fa-sitemap"></i>
+              <img src="/base/images/Groups/yonetisim.png" alt="Yönetişim">
             </div>
             <h4>{{ _('Yönetişim') }}</h4>
           </a>
@@ -190,114 +192,161 @@
       </div>
     </div>
   </div>
-</div>
-{% endblock %}
 
-{% block styles %}
-{{ super() }}
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-<style>
-  .homepage {
-    background-color: #fff;
-  }
+  {% endblock %}
 
-  .hero {
-    background-image: url('/images/hero-bg.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center;
-    padding: 100px 0;
-    position: relative;
-    color: rgb(207, 0, 0);
-    text-align: center;
-    min-height: 400px;
-  }
+  {% block styles %}
+  {{ super() }}
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+  <style>
+    .homepage {
+      background-color: #fff;
+    }
 
-  .hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.185);
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
+    .hero {
+      background-image: url('/images/hero-bg.jpg');
+      background-repeat: no-repeat;
+      background-size: cover;
+      background-position: center;
+      padding: 100px 0;
+      position: relative;
+      color: rgb(207, 0, 0);
+      text-align: center;
+      min-height: 400px;
+    }
 
-  .hero-content {
-    position: relative;
-    z-index: 1;
-  }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.185);
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
 
-  .hero h1 {
-    font-size: 48px;
-    margin-bottom: 30px;
-    color: white;
-  }
+    .hero-content {
+      margin-top: 100px;
+      position: relative;
+      z-index: 1;
+    }
 
-  .search-form {
-    max-width: 600px;
-    margin: 0 auto;
-  }
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 30px;
+      color: white;
+    }
 
-  .search-input {
-    display: flex;
-    background: white;
-    border-radius: 20px;
-    overflow: hidden;
-    padding: 5px;
-  }
+    .search-form {
+      max-width: 600px;
+      margin: 0 auto;
+      position: relative;
+      content: none;
+      border: none;
+      background: none;
+    }
 
-  .search-input input {
-    flex: 1;
-    border: none;
-    padding: 15px 20px;
-    font-size: 16px;
-    border-radius: 25px 0 0 25px;
-  }
+    .search-form::after {
+      content: none !important;
+      display: none !important;
+    }
 
-  .search-input button {
-    padding: 15px 30px;
-    border: none;
-    background: #0072bc;
-    color: white;
-    border-radius: 0 25px 25px 0;
-  }
+    .search-form::before {
+      content: none !important;
+      display: none !important;
+    }
 
-  .categories-section {
-    padding: 60px 0;
-  }
+    form.search-form {
+      border: 0;
+      padding: 0;
+      margin-bottom: 0;
+      background: transparent;
+      text-decoration: none;
+    }
 
-  .category-item {
-    margin-bottom: 30px;
-    transition: transform 0.3s;
-  }
+    .search-input {
+      display: flex;
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      padding: 5px;
+      margin-bottom: 0;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
 
-  .category-item:hover {
-    transform: translateY(-5px);
-  }
+    .search-input input {
+      flex: 1;
+      border: none;
+      padding: 15px 20px;
+      font-size: 16px;
+      border-radius: 25px 0 0 25px;
+      outline: none;
+    }
 
-  .category-item a {
-    text-decoration: none;
-    color: #333;
-    display: block;
-    padding: 20px;
-    background: #f8f9fa;
-    border-radius: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  }
+    .search-input button {
+      padding: 15px 30px;
+      border: none;
+      background: #0072bc;
+      color: white;
+      border-radius: 0 25px 25px 0;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
 
-  .category-icon {
-    font-size: 40px;
-    margin-bottom: 15px;
-    color: #0072bc;
-  }
+    .search-input button:hover {
+      background: #005a94;
+    }
 
-  .category-item h4 {
-    margin: 0;
-    font-size: 16px;
-    font-weight: 500;
-  }
-</style>
-{% endblock %}
+    /* 8 sütunlu grid için yeni container */
+    .categories-grid {
+      display: grid;
+      grid-template-columns: repeat(8, 1fr);
+      gap: 20px;
+      justify-items: center;
+      align-items: center;
+      height: 275px;
+    }
+
+    /* Artık kart stiline gerek kalmadığından, gereksiz stiller kaldırıldı */
+    .category-item {
+      transition: transform 0.3s;
+    }
+
+    .category-item:hover {
+      transform: translateY(-5px);
+    }
+
+    /* Sadece ikon ve yazıyı üst üste dizen sade stil */
+    .category-item a {
+      text-decoration: none;
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 0;
+      background: transparent;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    .category-icon {
+      margin-bottom: 5px;
+      color: #0072bc;
+    }
+
+    .category-icon img {
+      width: 64px;
+      height: 64px;
+      object-fit: contain;
+    }
+
+    .category-item h4 {
+      margin: 0;
+      font-size: 14px;
+      font-weight: 500;
+      text-align: center;
+    }
+  </style>
+  {% endblock %}

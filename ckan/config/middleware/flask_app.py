@@ -142,7 +142,7 @@ def make_flask_stack(conf: Union[Config, CKANConfig]) -> CKANApp:
     # Do all the Flask-specific stuff before adding other middlewares
 
     root_path = config.get('ckan.root_path')
-    if debug:
+    if not debug:
         from flask_debugtoolbar import DebugToolbarExtension
         app.config['DEBUG_TB_INTERCEPT_REDIRECTS'] = False
         debug_ext = DebugToolbarExtension()
