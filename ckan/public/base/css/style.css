@@ -1,0 +1,23 @@
+.breadcrumb {
+    padding: 8px 15px;
+    margin-bottom: 20px;
+    background: none;
+}
+
+.breadcrumb>li {
+    display: inline-block;
+}
+
+.breadcrumb>li+li:before {
+    padding: 0 8px;
+    color: #1F2B7B;
+}
+
+.breadcrumb>li>a {
+    color: #1F2B7B;
+    text-decoration: none;
+}
+
+.breadcrumb>.active {
+    color: #666;
+}

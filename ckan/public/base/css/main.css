@@ -19588,7 +19588,7 @@ td.diff_header {
   float: left;
   padding-right: 0.5rem;
   color: #6c757d;
-  content: var(--bs-breadcrumb-divider, "/")
+  content: var(--bs-breadcrumb-divider, ">")
     /* rtl: var(--bs-breadcrumb-divider, "/") */
   ;
 }
@@ -19783,7 +19783,7 @@ td.diff_header {
 
 .main {
   padding: 20px 0;
-  background: #eee url("../../../base/images/bg.png");
+  background: #fff;
 }
 
 .main:after,
@@ -20205,7 +20205,7 @@ td.diff_header {
 }
 
 .masthead {
-  background: #fff url("../../../base/images/bg.png");
+  background: #F4F9FF;
 }
 
 .masthead .debug {

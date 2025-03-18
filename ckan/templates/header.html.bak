@@ -126,14 +126,14 @@
           (dataset_type ~ '.search', _('Tüm Veri Setleri')),
           (org_type ~ '.index', _('Organizasyonlar')),
           (group_type ~ '.index', _('Gruplar')),
-          ('home.veri_istegi', _('Veri İsteği'))
+          ('veri_istegi.index', _('Veri İsteği'))
           ) }}
           {% else %}
           {{ h.build_nav_main(
           (dataset_type ~ '.search', _('Tüm Veri Setleri')),
           (dataset_type ~ '.search', _('Gösterge paneli')),
           (org_type ~ '.index', _('Organizasyonlar')),
-          ('home.veri_istegi', _('Veri İsteği'))
+          ('veri_istegi.index', _('Veri İsteği'))
           ) }}
           {% endif %}
           {% endblock %}

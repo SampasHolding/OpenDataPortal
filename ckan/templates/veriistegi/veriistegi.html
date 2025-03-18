@@ -1,0 +1,563 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Veri İsteği') }}{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    /* Override container styles */
+    #content.container {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    /* Override row styles */
+    .row.wrapper {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        --bs-gutter-x: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    .primary {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    .module {
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    .module-content {
+        padding: 0 !important;
+        background: none !important;
+        box-shadow: none !important;
+        min-height: 800px;
+    }
+
+    .content-wrapper {
+        position: relative;
+        padding: 20px;
+        margin-bottom: 60px;
+    }
+
+    .left-section {
+        position: absolute;
+        left: 20px;
+        top: 0;
+        width: 300px;
+    }
+
+    .veri-istegi-container {
+        margin-left: 340px;
+        padding-right: 20px;
+    }
+
+    .right-section {
+        background-color: #F4F9FF;
+        border-radius: 15px;
+        border: 1px solid #1F2B7B;
+        padding: 20px;
+    }
+
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .info-card,
+    .menu-card {
+        margin-top: 20px;
+        background-color: #F4F9FF;
+        border-radius: 8px;
+        overflow: hidden;
+        padding: 10px;
+        border: 1px solid #1F2B7B;
+        margin-bottom: 0;
+    }
+
+    .info-card h4 {
+        text-align: center;
+    }
+
+    .info-item-hr {
+        margin-top: 3px;
+        border: 1px solid #010836;
+
+    }
+
+    .menu-item-header-hr {
+        width: 125%;
+        margin-left: -15px;
+        border-top: 2px solid #05115f;
+    }
+
+    .menu-body {
+        padding: 0;
+    }
+
+    .menu-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .menu-item {
+        padding: 5px 15px;
+    }
+
+    .menu-item:last-child {
+        padding-bottom: 0;
+    }
+
+    .menu-item:last-child a {
+        border-bottom: none;
+    }
+
+    .menu-item a {
+        color: #333;
+        text-decoration: none;
+        display: block;
+        border-bottom: 1px solid #1F2B7B;
+    }
+
+    .menu-item:hover {
+        background-color: #f8f9fa;
+    }
+
+    .search-group {
+        display: flex;
+        border: 1px solid #979292;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: white;
+    }
+
+    .search-input {
+        flex: 1;
+        border: none;
+        padding: 10px 15px;
+        outline: none;
+    }
+
+    .search-button {
+        border: none;
+        background-color: white;
+        padding: 0 15px;
+        cursor: pointer;
+    }
+
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin: 20px 0;
+        position: relative;
+    }
+
+    .sort-button {
+        border: 1px solid #ddd;
+        background-color: white;
+        padding: 3px 8px;
+        border-radius: 4px;
+        font-size: 10px;
+        transition: all 0.2s ease;
+    }
+
+    .sort-button:focus,
+    .sort-button.show {
+        outline: none;
+        border-color: #445BF0;
+        box-shadow: 0 0 0 2px #9aa3df, 0 0 10px #8491e7;
+    }
+
+    .request-card {
+        background-color: transparent;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #1F2B7B;
+    }
+
+    .request-title {
+        margin-bottom: 10px;
+    }
+
+    .request-text {
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .request-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .status-badge {
+        padding: 5px 15px;
+        border-radius: 15px;
+        font-size: 0.9em;
+        margin-right: 10px;
+    }
+
+    .status-badge.open {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .status-badge.closed {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .request-link {
+        color: #666;
+        text-decoration: none;
+        margin-right: 15px;
+    }
+
+    .request-link:hover {
+        color: #333;
+    }
+
+    .pagination-nav {
+        margin-top: 20px;
+    }
+
+    .menu-card {
+        margin-top: 20px;
+        background-color: #F4F9FF;
+        overflow: hidden;
+        padding: 15px;
+        border: 1px solid #1F2B7B;
+        margin-bottom: 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .menu-header {
+        padding: 10px 15px;
+        margin: -15px -15px -15px 15px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #F4F9FF;
+        color: #1F2937;
+    }
+
+
+    .collapse-trigger {
+        color: #6B7280;
+    }
+
+    .collapse-trigger:hover {
+        color: #374151;
+    }
+
+    .menu-item {
+        padding: 4px 0;
+    }
+
+    .menu-item a {
+        color: #4B5563;
+        text-decoration: none;
+        display: block;
+        padding: 8px 0;
+        border-bottom: 1px solid #E5E7EB;
+        transition: all 0.2s ease;
+    }
+
+    .menu-item:last-child a {
+        border-bottom: none;
+    }
+
+    .menu-item a:hover {
+        color: #1F2937;
+        background-color: #F9FAFB;
+    }
+
+    .menu-body {
+        padding: 0 15px;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #1F2B7B;
+        border-color: #1F2B7B;
+        color: white;
+    }
+
+    .pagination .page-link {
+        color: #1F2B7B;
+    }
+
+    .pagination .page-link:hover {
+        color: #1F2B7B;
+        background-color: #e9ecef;
+    }
+
+    .dropdown-menu {
+        min-width: 50px !important;
+        width: fit-content;
+        padding: 0 0;
+        margin: 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .dropdown-item {
+        padding: 2px 4px;
+        font-size: 9px;
+        color: #4B5563;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .dropdown {
+        position: static;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        margin-top: 2px;
+    }
+
+    .breadcrumb {
+        padding: 8px 15px;
+        margin-bottom: 20px;
+        background: none;
+    }
+
+    .breadcrumb li {
+        display: inline;
+    }
+
+    .breadcrumb li+li:before {
+        padding: 0 8px;
+        color: #1F2B7B;
+    }
+
+    .breadcrumb li a {
+        color: #1F2B7B;
+        text-decoration: none;
+    }
+
+    .breadcrumb li.active {
+        color: #666;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumb_content %}
+<li class="active">{{ ('Veri İsteği') }}</li>
+{% endblock %}
+
+{% block primary_content %}
+<div class="content-wrapper">
+    <!-- Sol Taraf: Bilgi ve Menüler -->
+    <div class="left-section">
+        <div class="info-card">
+            <h4>{{ _('Veri İsteği') }}</h4>
+            <hr class="info-item-hr">
+            <p>Veri isteği, kullanıcıların henüz platformda yayınlanmayan verileri talep etmesini sağlar.
+                Belirli bir veri istiyorsanız ve yayınlanan tüm veri kümeleri arasında ihtiyacınız olan veriyi
+                bulamıyorsanız, kullanıcı girişi yaparak yeni bir veri isteği oluşturabilirsiniz.</p>
+        </div>
+
+        <div class="accordion" id="menuAccordion">
+            <div class="menu-card">
+                <div>
+                    <div class="menu-header">
+                        {{ _('Organizasyonlar') }}
+                        <button class="btn btn-link float-end p-0 collapse-trigger" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#organizasyonlarCollapse" aria-expanded="true"
+                            aria-controls="organizasyonlarCollapse">
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                    </div>
+                    <div id="organizasyonlarCollapse" class="collapse show" data-bs-parent="#menuAccordion">
+                        <div class="menu-body">
+                            <ul class="menu-list">
+                                {% for org in h.get_featured_organizations() %}
+                                <li class="menu-item">
+                                    <a href="{{ h.url_for('home.veri_istegi', organization=org.name) }}">
+                                        {{ org.display_name }}
+                                    </a>
+                                </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <hr class="menu-item-header-hr">
+                <div>
+                    <div class="menu-header">
+                        {{ _('Durum') }}
+                        <button class="btn btn-link float-end p-0 collapse-trigger" type="button"
+                            data-bs-toggle="collapse" data-bs-target="#durumCollapse" aria-expanded="false"
+                            aria-controls="durumCollapse">
+                            <i class="fa fa-angle-down"></i>
+                        </button>
+                    </div>
+                    <div id="durumCollapse" class="collapse" data-bs-parent="#menuAccordion">
+                        <div class="menu-body">
+                            <ul class="menu-list">
+                                <li class="menu-item">
+                                    <a href="{{ h.url_for('home.veri_istegi', status='open') }}">
+                                        {{ _('Açık İstekler') }}
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="{{ h.url_for('home.veri_istegi', status='closed') }}">
+                                        {{ _('Kapalı İstekler') }}
+                                    </a>
+                                </li>
+                                <li class="menu-item">
+                                    <a href="{{ h.url_for('home.veri_istegi', status='all') }}">
+                                        {{ _('Tüm İstekler') }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sağ Taraf: Arama, Sıralama ve Veri İstekleri Listesi -->
+    <div class="veri-istegi-container">
+        <div class="right-section">
+            <form action="{{ h.url_for('home.veri_istegi') }}" method="get" class="mb-4">
+                <div class="search-group">
+                    <input type="text" name="q" class="search-input" placeholder="{{ _('Veri İsteklerini Ara') }}"
+                        aria-label="{{ _('Veri İsteklerini Ara') }}" value="{{ search_query }}">
+                    <button class="search-button" type="submit">
+                        <i class="fa fa-search"></i>
+                    </button>
+                </div>
+                {% if organization %}
+                <input type="hidden" name="organization" value="{{ organization }}">
+                {% endif %}
+                {% if status != 'all' %}
+                <input type="hidden" name="status" value="{{ status }}">
+                {% endif %}
+            </form>
+
+            <div class="header-section">
+                <h4>{{ total_count }} {{ _('Veri İsteği Bulundu') }}</h4>
+                <div class="dropdown">
+                    <button class="sort-button dropdown-toggle" type="button" id="sortDropdown"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        {% if sort == 'newest' %}
+                        {{ _('En yeni') }}
+                        {% elif sort == 'oldest' %}
+                        {{ _('En eski') }}
+                        {% endif %}
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="sortDropdown">
+                        <li><a class="dropdown-item"
+                                href="{{ h.url_for('home.veri_istegi', sort='newest', status=status, organization=organization, q=search_query) }}">{{
+                                _('En yeni') }}</a></li>
+                        <li><a class="dropdown-item"
+                                href="{{ h.url_for('home.veri_istegi', sort='oldest', status=status, organization=organization, q=search_query) }}">{{
+                                _('En eski') }}</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Veri İstekleri Listesi -->
+            <div class="request-list">
+                {% for veri in veri_istekleri %}
+                <div class="request-card">
+                    <h5 class="request-title">{{ veri.title }}</h5>
+                    <p class="request-text">{{ veri.description }}</p>
+                    <div class="request-footer">
+                        <div>
+                            <a href="#" class="request-link"><i class="fa fa-comment"></i> {% if veri.status == 'Açık'
+                                %}0{% else %}1{% endif %}</a>
+                            <a href="#" class="request-link">{% if loop.index == 1 %}15/02/2024{% elif loop.index == 2
+                                %}10/02/2024{% elif loop.index == 3 %}05/02/2024{% elif loop.index == 4 %}01/02/2024{%
+                                else %}25/01/2024{% endif %}</a>
+                            <span class="status-badge {% if veri.status == 'Açık' %}open{% else %}closed{% endif %}">
+                                <i class="fa {% if veri.status == 'Açık' %}fa-unlock{% else %}fa-lock{% endif %}"></i>
+                                {{ veri.status }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+            <!-- Sayfalama -->
+            <nav class="pagination-nav">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item {% if page == 1 %}disabled{% endif %}">
+                        <a class="page-link"
+                            href="{{ h.url_for('home.veri_istegi', page=page-1, sort=sort, status=status, organization=organization, q=search_query) if page > 1 else '#' }}">
+                            &laquo;
+                        </a>
+                    </li>
+                    {% for p in range(1, 6) %}
+                    <li class="page-item {% if p == page %}active{% endif %}">
+                        <a class="page-link"
+                            href="{{ h.url_for('home.veri_istegi', page=p, sort=sort, status=status, organization=organization, q=search_query) }}">
+                            {{ p }}
+                        </a>
+                    </li>
+                    {% endfor %}
+                    <li class="page-item disabled"><a class="page-link" href="#">....</a></li>
+                    <li class="page-item">
+                        <a class="page-link"
+                            href="{{ h.url_for('home.veri_istegi', page=page+1, sort=sort, status=status, organization=organization, q=search_query) }}">
+                            &raquo;
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block secondary %}{% endblock %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const collapseElements = document.querySelectorAll('.collapse');
+        const collapseTriggers = document.querySelectorAll('.collapse-trigger');
+
+        collapseTriggers.forEach(trigger => {
+            trigger.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('data-bs-target');
+                const otherCollapses = Array.from(collapseElements).filter(el => el.id !== targetId.substring(1));
+
+                otherCollapses.forEach(collapse => {
+                    if (collapse.classList.contains('show')) {
+                        collapse.classList.remove('show');
+                        const otherTrigger = document.querySelector(`[data-bs-target="#${collapse.id}"]`);
+                        if (otherTrigger) {
+                            otherTrigger.setAttribute('aria-expanded', 'false');
+                        }
+                    }
+                });
+            });
+        });
+    });
+</script>
