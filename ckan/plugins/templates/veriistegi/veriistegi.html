@@ -455,14 +455,12 @@
                     <div class="menu-header">
                         {{ _('Durum') }}
                         <button class="btn btn-link float-end p-0 collapse-trigger" type="button"
-                            data-bs-toggle="collapse" data-bs-target="#durumCollapse"
-                            aria-expanded="{% if status %}true{% else %}false{% endif %}" aria-controls="durumCollapse">
-                            <i class="fa fa-angle-down rotate-icon" {% if status %}style="transform: rotate(180deg);" {%
-                                endif %}></i>
+                            data-bs-toggle="collapse" data-bs-target="#durumCollapse" aria-expanded="false"
+                            aria-controls="durumCollapse">
+                            <i class="fa fa-angle-down rotate-icon"></i>
                         </button>
                     </div>
-                    <div id="durumCollapse" class="collapse {% if status %}show{% endif %}"
-                        data-bs-parent="#menuAccordion">
+                    <div id="durumCollapse" class="collapse" data-bs-parent="#menuAccordion">
                         <div class="menu-body">
                             <ul class="menu-list">
                                 <li class="menu-item {% if status == 'open' %}active{% endif %}">
@@ -548,13 +546,12 @@
                     <p class="request-text">{{ veri.description }}</p>
                     <div class="request-footer">
                         <div>
-
-                            <a href="#" class="request-link"><i class="fa fa-comment"></i> {{ veri.comment_count }}</a>
-                            <a href="#" class="request-link">{{ veri.days_ago }} {{ _('gün önce') }}</a>
                             <span class="status-badge {% if veri.status == 'Açık' %}open{% else %}closed{% endif %}">
                                 <i class="fa {% if veri.status == 'Açık' %}fa-unlock{% else %}fa-lock{% endif %}"></i>
                                 {{ veri.status }}
                             </span>
+                            <a href="#" class="request-link"><i class="fa fa-comment"></i> {{ veri.comment_count }}</a>
+                            <a href="#" class="request-link">{{ veri.days_ago }} {{ _('gün önce') }}</a>
                         </div>
                     </div>
                 </div>
@@ -599,27 +596,6 @@
         const collapseElements = document.querySelectorAll('.collapse');
         const collapseTriggers = document.querySelectorAll('.collapse-trigger');
         const removeFilters = document.querySelectorAll('.remove-filter');
-        const durumCollapse = document.getElementById('durumCollapse');
-        const durumTrigger = document.querySelector('[data-bs-target="#durumCollapse"]');
-
-        // Durum panelini varsayılan olarak aç
-        const currentStatus = new URLSearchParams(window.location.search).get('status');
-        if (currentStatus) {
-            durumCollapse.classList.add('show');
-            durumTrigger.setAttribute('aria-expanded', 'true');
-            const durumIcon = durumTrigger.querySelector('.rotate-icon');
-            if (durumIcon) {
-                durumIcon.style.transform = 'rotate(180deg)';
-            }
-
-            // Organizasyonlar panelini kapat
-            const orgCollapse = document.getElementById('organizasyonlarCollapse');
-            const orgTrigger = document.querySelector('[data-bs-target="#organizasyonlarCollapse"]');
-            if (orgCollapse && orgTrigger) {
-                orgCollapse.classList.remove('show');
-                orgTrigger.setAttribute('aria-expanded', 'false');
-            }
-        }
 
         // Mevcut collapse işleyicisi
         collapseTriggers.forEach(trigger => {
@@ -660,6 +636,7 @@
         });
 
         // Aktif filtreyi göster
+        const currentStatus = new URLSearchParams(window.location.search).get('status');
         if (currentStatus) {
             const activeMenuItem = document.querySelector(`.menu-item a[href*="status=${currentStatus}"]`);
             if (activeMenuItem) {

@@ -2915,3 +2915,24 @@ def get_groups():
         return groups
     except:
         return []
+
+
+@core_helper
+def get_open_requests_count() -> int:
+    '''Return the number of open data requests.'''
+    try:
+        context = {'user': current_user.name}
+        data_dict = {'status': 'open'}
+        return logic.get_action('veri_istegi_count')(context, data_dict)
+    except Exception:
+        return 0
+
+@core_helper
+def get_closed_requests_count() -> int:
+    '''Return the number of closed data requests.'''
+    try:
+        context = {'user': current_user.name}
+        data_dict = {'status': 'closed'}
+        return logic.get_action('veri_istegi_count')(context, data_dict)
+    except Exception:
+        return 0

@@ -20376,6 +20376,17 @@ td.diff_header {
   text-decoration: none;
 }
 
+.sampas-text {
+  color: #0072bc;
+  font-weight: bold;
+}
+
+.ckan-link-text {
+  color: #fff;
+  font-weight: bold;
+}
+
+
 /* Footer Başlıkları */
 .footer-info h4 {
   color: #0072bc;

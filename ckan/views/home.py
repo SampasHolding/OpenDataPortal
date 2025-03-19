@@ -22,6 +22,25 @@ CACHE_PARAMETERS = [u'__cache', u'__no_cache__']
 home = Blueprint(u'home', __name__)
 
 
+def get_request_count(status: str) -> int:
+    """
+    Belirli bir durumdaki veri isteklerinin sayısını döndürür
+    """
+    # Örnek veri
+    veri_istekleri = [
+        {"title": "Lorem ipsum odor amet", "description": "Lorem ipsum dolor amet, consectetuer adipiscing elit. Hac luctus cubilia cras maecenas nostra mi luctus. Vel finibus lobortis ornare mollis felis nam duis.", "status": "Açık", "comment_count": 2, "days_ago": 3},
+        {"title": "Lorem ipsum odor amet", "description": "Lorem ipsum dolor amet, consectetuer adipiscing elit. Hac luctus cubilia cras maecenas nostra mi luctus. Vel finibus lobortis ornare mollis felis nam duis.", "status": "Kapalı", "comment_count": 0, "days_ago": 5},
+        {"title": "Lorem ipsum odor amet", "description": "Lorem ipsum dolor amet, consectetuer adipiscing elit. Hac luctus cubilia cras maecenas nostra mi luctus. Vel finibus lobortis ornare mollis felis nam duis.", "status": "Açık", "comment_count": 5, "days_ago": 7},
+    ]
+    
+    if status == 'all':
+        return len(veri_istekleri)
+    return len([v for v in veri_istekleri if v['status'] == ('Açık' if status == 'open' else 'Kapalı')])
+
+# Register helper function
+h.get_request_count = get_request_count
+
+
 def index() -> str:
     u'''display home page'''
     extra_vars: dict[str, Any] = {}
