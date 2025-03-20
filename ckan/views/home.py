@@ -14,7 +14,7 @@ from ckan.lib.helpers import helper_functions as h
 
 from ckan.common import g, config, current_user, _
 from ckan.types import Context, Response
-
+from ckan.plugins.veri_istegi import get_filtered_requests
 
 CACHE_PARAMETERS = [u'__cache', u'__no_cache__']
 
@@ -26,16 +26,15 @@ def get_request_count(status: str) -> int:
     """
     Belirli bir durumdaki veri isteklerinin sayısını döndürür
     """
-    # Örnek veri
-    veri_istekleri = [
-        {"title": "Lorem ipsum odor amet", "description": "Lorem ipsum dolor amet, consectetuer adipiscing elit. Hac luctus cubilia cras maecenas nostra mi luctus. Vel finibus lobortis ornare mollis felis nam duis.", "status": "Açık", "comment_count": 2, "days_ago": 3},
-        {"title": "Lorem ipsum odor amet", "description": "Lorem ipsum dolor amet, consectetuer adipiscing elit. Hac luctus cubilia cras maecenas nostra mi luctus. Vel finibus lobortis ornare mollis felis nam duis.", "status": "Kapalı", "comment_count": 0, "days_ago": 5},
-        {"title": "Lorem ipsum odor amet", "description": "Lorem ipsum dolor amet, consectetuer adipiscing elit. Hac luctus cubilia cras maecenas nostra mi luctus. Vel finibus lobortis ornare mollis felis nam duis.", "status": "Açık", "comment_count": 5, "days_ago": 7},
-    ]
+    # Tüm veri isteklerini al
+    all_requests = get_filtered_requests('all', 'newest', 1, 999)['items']
     
     if status == 'all':
-        return len(veri_istekleri)
-    return len([v for v in veri_istekleri if v['status'] == ('Açık' if status == 'open' else 'Kapalı')])
+        return len(all_requests)
+    
+    # İstenen duruma göre filtrele ve say
+    filtered_requests = [v for v in all_requests if v['status'] == ('Açık' if status == 'open' else 'Kapalı')]
+    return len(filtered_requests)
 
 # Register helper function
 h.get_request_count = get_request_count
@@ -107,33 +106,66 @@ def robots_txt() -> Response:
     return resp
 
 
-def veri_istegi() -> str:
-    '''Veri İsteği sayfasını göster'''
-    # Default sorting
+@home.route('/veri-istegi')
+def veri_istegi():
+    """
+    Veri İsteği sayfasını gösterir
+    """
+    # URL parametrelerini al
     sort = request.args.get('sort', 'newest')
     status = request.args.get('status', 'all')
     organization = request.args.get('organization', None)
     page = request.args.get('page', 1, type=int)
     search_query = request.args.get('q', '')
-
-    # Örnek veri
-    veri_istekleri = [
-        {"title": "Lorem ipsum odor amet", "description": "Lorem ipsum dolor amet, consectetuer adipiscing elit. Hac luctus cubilia cras maecenas nostra mi luctus. Vel finibus lobortis ornare mollis felis nam duis.", "status": "Açık", "comment_count": 2, "days_ago": 3},
-        {"title": "Lorem ipsum odor amet", "description": "Lorem ipsum dolor amet, consectetuer adipiscing elit. Hac luctus cubilia cras maecenas nostra mi luctus. Vel finibus lobortis ornare mollis felis nam duis.", "status": "Kapalı", "comment_count": 0, "days_ago": 5},
-        {"title": "Lorem ipsum odor amet", "description": "Lorem ipsum dolor amet, consectetuer adipiscing elit. Hac luctus cubilia cras maecenas nostra mi luctus. Vel finibus lobortis ornare mollis felis nam duis.", "status": "Açık", "comment_count": 5, "days_ago": 7},
-    ]
-
+    title = request.args.get('title', None)
+    
+    # Detay sayfası için belirli bir veri isteği
+    if title:
+        # Veri isteklerini al
+        from ckan.plugins.veri_istegi import VERI_ISTEKLERI, get_filtered_requests
+        
+        # Belirtilen başlığa sahip veri isteğini bul
+        veri_istegi = next((v for v in VERI_ISTEKLERI if v['title'] == title), None)
+        
+        if not veri_istegi:
+            return base.render('error_document_template.html', 
+                          extra_vars={
+                              'error_type': "404", 
+                              'error_message': "Veri isteği bulunamadı"
+                          })
+        
+        # Şablona gönderilecek değişkenler
+        extra_vars = {
+            'veri': veri_istegi
+        }
+        
+        return base.render('veriistegi/veri_istegi_detail.html', extra_vars=extra_vars)
+    
+    # Filtrelenmiş veri isteklerini al
+    from ckan.plugins.veri_istegi import get_filtered_requests
+    result = get_filtered_requests(status, sort, page)
+    veri_istekleri = result['items']
+    
+    # Arama filtresini uygula
+    if search_query:
+        veri_istekleri = [
+            v for v in veri_istekleri
+            if search_query.lower() in v['title'].lower() or 
+               search_query.lower() in v['description'].lower()
+        ]
+    
     # Şablona gönderilecek değişkenler
     extra_vars = {
         'veri_istekleri': veri_istekleri,
         'sort': sort,
         'status': status,
         'organization': organization,
-        'page': page,
+        'page': result['current_page'],
+        'total_pages': result['total_pages'],
         'search_query': search_query,
-        'total_count': len(veri_istekleri)
+        'total_count': result['total_items']
     }
-
+    
     return base.render('veriistegi/veriistegi.html', extra_vars=extra_vars)
 
 

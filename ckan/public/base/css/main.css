@@ -20386,6 +20386,12 @@ td.diff_header {
   font-weight: bold;
 }
 
+.footer-developer-logo {
+  width: 17.5%;
+  height: 35%;
+  margin-left: 10px;
+  margin-right: 10px;
+}
 
 /* Footer Başlıkları */
 .footer-info h4 {

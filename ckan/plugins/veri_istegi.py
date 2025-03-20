@@ -16,36 +16,36 @@ VERI_ISTEKLERI = [
         "title": "Şehir Planları Verisi",
         "description": "Şehir planlaması ve imar durumları hakkında detaylı veri seti.",
         "status": "Açık",
-        "comment_count": 2,
-        "days_ago": 3
+        "comment_count": 0,
+        "created_date": "18.03.2024"
     },
     {
         "title": "Toplu Taşıma Güzergahları",
         "description": "Şehir içi otobüs ve metro hatlarının detaylı güzergah bilgileri.",
         "status": "Kapalı",
-        "comment_count": 0,
-        "days_ago": 5
+        "comment_count": 3,
+        "created_date": "15.03.2024"
     },
     {
         "title": "Park ve Yeşil Alanlar",
         "description": "Şehirdeki park ve yeşil alanların konumları ve özellikleri.",
         "status": "Açık",
-        "comment_count": 5,
-        "days_ago": 7
+        "comment_count": 0,
+        "created_date": "12.03.2024"
     },
     {
         "title": "Kültürel Etkinlikler",
         "description": "Son bir yıl içindeki kültürel etkinliklerin listesi ve katılım bilgileri.",
         "status": "Açık",
-        "comment_count": 3,
-        "days_ago": 2
+        "comment_count": 0,
+        "created_date": "20.03.2024"
     },
     {
         "title": "Hava Kalitesi Ölçümleri",
         "description": "Şehir genelindeki hava kalitesi ölçüm istasyonlarının verileri.",
         "status": "Kapalı",
-        "comment_count": 1,
-        "days_ago": 10
+        "comment_count": 2,
+        "created_date": "10.03.2024"
     }
 ]
 
@@ -57,7 +57,7 @@ def get_request_count(status: str) -> int:
         return len(VERI_ISTEKLERI)
     return len([v for v in VERI_ISTEKLERI if v['status'] == ('Açık' if status == 'open' else 'Kapalı')])
 
-def get_filtered_requests(status: str = 'all', sort: str = 'newest') -> List[Dict[str, Any]]:
+def get_filtered_requests(status: str = 'all', sort: str = 'newest', page: int = 1, per_page: int = 3) -> Dict[str, Any]:
     """
     Durum ve sıralama kriterlerine göre filtrelenmiş veri isteklerini döndürür
     """
@@ -67,14 +67,32 @@ def get_filtered_requests(status: str = 'all', sort: str = 'newest') -> List[Dic
     else:
         filtered_status = 'Açık' if status == 'open' else 'Kapalı'
         filtered_requests = [v for v in VERI_ISTEKLERI if v['status'] == filtered_status]
-
+        
     # Sıralamayı uygula
     if sort == 'newest':
-        filtered_requests.sort(key=lambda x: x['days_ago'])
+        filtered_requests.sort(key=lambda x: x['created_date'], reverse=True)
     elif sort == 'oldest':
-        filtered_requests.sort(key=lambda x: x['days_ago'], reverse=True)
+        filtered_requests.sort(key=lambda x: x['created_date'])
 
-    return filtered_requests
+    # Toplam sayfa sayısını hesapla
+    total_items = len(filtered_requests)
+    total_pages = (total_items + per_page - 1) // per_page
+
+    # Geçerli sayfa numarasını kontrol et
+    page = max(1, min(page, total_pages))
+
+    # Sayfalama uygula
+    start_idx = (page - 1) * per_page
+    end_idx = start_idx + per_page
+    paginated_requests = filtered_requests[start_idx:end_idx]
+
+    return {
+        'items': paginated_requests,
+        'total_items': total_items,
+        'total_pages': total_pages,
+        'current_page': page,
+        'per_page': per_page
+    }
 
 @veri_istegi_blueprint.route('/veri-istegi')
 def index():
@@ -89,7 +107,8 @@ def index():
     search_query = request.args.get('q', '')
 
     # Filtrelenmiş veri isteklerini al
-    veri_istekleri = get_filtered_requests(status, sort)
+    result = get_filtered_requests(status, sort, page)
+    veri_istekleri = result['items']
 
     # Arama filtresini uygula
     if search_query:
@@ -105,12 +124,33 @@ def index():
         'sort': sort,
         'status': status,
         'organization': organization,
-        'page': page,
+        'page': result['current_page'],
+        'total_pages': result['total_pages'],
         'search_query': search_query,
-        'total_count': len(veri_istekleri)
+        'total_count': result['total_items']
     }
 
     return render_template('veriistegi/veriistegi.html', **extra_vars)
+
+@veri_istegi_blueprint.route('/veri-istegi/<title>')
+def show(title):
+    """
+    Veri İsteği detay sayfasını göster
+    """
+    # Belirtilen başlığa sahip veri isteğini bul
+    veri_istegi = next((v for v in VERI_ISTEKLERI if v['title'] == title), None)
+    
+    if not veri_istegi:
+        return render_template('error_document_template.html', 
+                              error_type="404", 
+                              error_message="Veri isteği bulunamadı")
+    
+    # Şablona gönderilecek değişkenler
+    extra_vars = {
+        'veri': veri_istegi
+    }
+    
+    return render_template('veriistegi/veri_istegi_detail.html', **extra_vars)
 
 # CKAN Plugin sınıfı
 class VeriIstegiPlugin(plugins.SingletonPlugin):

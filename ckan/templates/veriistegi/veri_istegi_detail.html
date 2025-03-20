@@ -1,0 +1,835 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Veri İsteği') }}{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    /* Override container styles */
+    #content.container {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    /* Override row styles */
+    .row.wrapper {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        --bs-gutter-x: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    .primary {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    .module {
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+        min-height: auto !important;
+    }
+
+    .module-content {
+        padding: 0 !important;
+        background: none !important;
+        box-shadow: none !important;
+        min-height: auto !important;
+        margin-bottom: 60px !important;
+    }
+
+    /* Content wrapper styles */
+    .content-wrapper {
+        position: relative;
+        padding: 20px;
+        margin-bottom: 0;
+        min-height: calc(100vh - 200px);
+    }
+
+    .left-section {
+        position: absolute;
+        left: 20px;
+        top: 60px;
+        width: 300px;
+        border-right: 1px solid #1F2B7B;
+        box-shadow: none;
+    }
+
+    .veri-istegi-container {
+        margin-left: 340px;
+        padding-right: 20px;
+        padding-bottom: 40px;
+    }
+
+    .right-section {
+        background-color: #ffffff;
+        padding: 20px;
+    }
+
+    /* Tab styles */
+    .tab-content>.tab-pane {
+        display: block !important;
+        opacity: 1 !important;
+    }
+
+    .nav-tabs .nav-link {
+        cursor: pointer;
+    }
+
+    .tab-item-hr {
+        margin: 15px 0;
+        width: 100%;
+        border: none;
+        height: 2px;
+        background-color: #6890BF;
+    }
+
+    /* Ensure content is always visible */
+    #veri-istegi {
+        display: block !important;
+        opacity: 1 !important;
+    }
+
+    .content-title {
+        font-size: 24px;
+        color: #1F2B7B;
+        margin-bottom: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+    }
+
+    .status-badge {
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+        background-color: #6B7280;
+        color: white;
+    }
+
+    .status-badge.kapali {
+        background-color: #6B7280;
+    }
+
+    .content-description {
+        color: #000000;
+        line-height: 1.6;
+        width: 88%;
+        margin-bottom: 30px;
+        padding: 20px;
+    }
+
+    .ek-bilgi-title {
+        color: #1F2B7B;
+        font-size: 18px;
+        margin-bottom: 15px;
+        padding: 0 20px;
+    }
+
+    .info-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+        background: white;
+        overflow: hidden;
+    }
+
+    .info-table td {
+        padding: 12px 15px;
+        border: 1px solid #1F2B7B;
+        width: 30%;
+    }
+
+    .info-table td:first-child {
+        width: 30%;
+        background-color: #ffffff;
+        color: #4B5563;
+        font-weight: 500;
+    }
+
+    .info-table td:last-child {
+        color: #1F2B7B;
+    }
+
+    .info-table a {
+        color: #1F2B7B;
+        text-decoration: none;
+    }
+
+    .info-table a:hover {
+        text-decoration: underline;
+    }
+
+    /* Info Card Styles */
+    .info-card {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        padding-bottom: 135px;
+    }
+
+    .info-card-title {
+        color: #1F2B7B;
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .follower-label {
+        color: #1F2B7B;
+        font-size: 13px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .follower-count {
+        color: #1F2B7B;
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .follow-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #1F2B7B;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 500;
+        width: 100%;
+        margin-bottom: 45px;
+    }
+
+    .follow-button:hover {
+        background-color: #2a3ab9;
+        color: white;
+        text-decoration: none;
+    }
+
+    .social-media-title {
+        color: #666;
+        font-size: 14px;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+
+    .social-media-icons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+    }
+
+    .social-icon {
+        width: 36px;
+        height: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        border-radius: 4px;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        position: relative;
+    }
+
+    .social-icon:hover {
+        transform: translateY(-2px);
+    }
+
+    .social-icon .share-icon {
+        position: absolute;
+        bottom: -5px;
+        right: -5px;
+        width: 16px;
+        height: 16px;
+        background: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .facebook {
+        background-color: #1877f2;
+    }
+
+    .twitter {
+        background-color: #000000;
+    }
+
+    .linkedin {
+        background-color: #0a66c2;
+    }
+
+    .facebook .share-icon {
+        color: #1877f2;
+    }
+
+    .twitter .share-icon {
+        color: #000000;
+    }
+
+    .linkedin .share-icon {
+        color: #0a66c2;
+    }
+
+    .info-item-hr {
+        margin: 15px 0;
+        margin-bottom: 30px;
+        border: none;
+        height: 1px;
+        background-color: #1F2B7B;
+    }
+
+    /* Custom Tab Styles */
+    .custom-tabs {
+        display: flex;
+        gap: 10px;
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        border: none;
+    }
+
+    .custom-tab-item {
+        list-style: none;
+    }
+
+    .custom-tab-button {
+        border: none;
+        color: #1F2B7B;
+        padding: 10px 20px;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-weight: 500;
+        border-radius: 8px;
+        background: none;
+        cursor: pointer;
+    }
+
+    .custom-tab-button.active {
+        background-color: #1F2B7B;
+        color: white;
+    }
+
+    .custom-tab-button i {
+        font-size: 16px;
+    }
+
+    .custom-tab-content {
+        display: none;
+    }
+
+    .custom-tab-content.active {
+        display: block !important;
+    }
+
+    /* Comment Styles */
+    .no-comments-message {
+        text-align: center;
+        padding: 40px 20px;
+        color: #6B7280;
+        background: white;
+        border-radius: 8px;
+        margin: 20px 0;
+    }
+
+    .comments-list {
+        margin-top: 20px;
+    }
+
+    .comment-item {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 15px;
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+
+    .comment-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .comment-user-avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background: #E5E7EB;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #1F2B7B;
+    }
+
+    .comment-user-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .comment-user-name {
+        font-weight: 500;
+        color: #1F2B7B;
+    }
+
+    .comment-date {
+        font-size: 0.85rem;
+        color: #6B7280;
+    }
+
+    .comment-content {
+        color: #4B5563;
+        line-height: 1.6;
+    }
+
+    /* Form styles */
+    .comment-form-container {
+        background: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin-top: 20px;
+        border: 1px solid #E5E7EB;
+    }
+
+    .comment-form-title {
+        color: #1F2B7B;
+        font-size: 18px;
+        margin-bottom: 15px;
+        font-weight: 500;
+    }
+
+    .comment-textarea {
+        width: 100%;
+        min-height: 120px;
+        border: 1px solid #E5E7EB;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        resize: vertical;
+        font-family: inherit;
+    }
+
+    .comment-submit-btn {
+        background-color: #1F2B7B;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 10px 20px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.2s;
+    }
+
+    .comment-submit-btn:hover {
+        background-color: #2a3ab9;
+    }
+
+    .login-message {
+        text-align: center;
+        padding: 20px;
+        background-color: #F9FAFB;
+        border-radius: 8px;
+        margin-top: 20px;
+        color: #6B7280;
+    }
+
+    .login-message a {
+        color: #1F2B7B;
+        text-decoration: none;
+        font-weight: 500;
+    }
+
+    .login-message a:hover {
+        text-decoration: underline;
+    }
+
+    /* CSS kısmına takibi bırak butonu için stil ekleyelim */
+    .unfollow-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #dc3545;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 500;
+        width: 100%;
+        margin-bottom: 45px;
+    }
+
+    .unfollow-button:hover {
+        background-color: #c82333;
+        color: white;
+        text-decoration: none;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumb_content %}
+<li><a href="{{ h.url_for('home.index') }}">{{ _('Anasayfa') }}</a></li>
+<li><a href="{{ h.url_for('home.veri_istegi') }}">{{ _('Veri İsteği') }}</a></li>
+<li class="active">{{ request.args.get('title', '') }}</li>
+{% endblock %}
+
+{% block primary_content %}
+<div class="content-wrapper">
+    <!-- Sol Taraf -->
+    <div class="left-section">
+        <div class="info-card">
+            <h2 class="info-card-title">{{ request.args.get('title', '') }}</h2>
+            <hr class="info-item-hr">
+            <div class="follower-label">Takipçiler</div>
+            <div class="follower-count" id="follower-count">0</div>
+            {% if c.user %}
+            <a href="#" class="follow-button" id="follow-button" onclick="toggleFollow(event)">
+                <i class="fa fa-plus"></i>
+                Takip et
+            </a>
+            {% endif %}
+            <div class="social-media-title">Sosyal Medya</div>
+            <hr class="info-item-hr">
+            <div class="social-media-icons">
+                <a href="https://www.facebook.com/login" class="social-icon facebook" title="Facebook">
+                    <i class="fa-brands fa-facebook-f"></i>
+                    <span class="share-icon">
+                        <i class="fa fa-share-alt"></i>
+                    </span>
+                </a>
+                <a href="https://x.com/login" class="social-icon twitter" title="X (Twitter)">
+                    <i class="fa-brands fa-x-twitter"></i>
+                    <span class="share-icon">
+                        <i class="fa fa-share-alt"></i>
+                    </span>
+                </a>
+                <a href="https://www.linkedin.com/login" class="social-icon linkedin" title="LinkedIn">
+                    <i class="fa-brands fa-linkedin-in"></i>
+                    <span class="share-icon">
+                        <i class="fa fa-share-alt"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sağ Taraf: Ana İçerik -->
+    <div class="veri-istegi-container">
+        <div class="right-section">
+            <!-- Custom Tabs -->
+            <ul class="custom-tabs">
+                <li class="custom-tab-item">
+                    <button class="custom-tab-button active" onclick="switchTab('veri-istegi-content', this)">
+                        <i class="fa fa-info-circle"></i> Veri İsteği
+                    </button>
+                </li>
+                <li class="custom-tab-item">
+                    <button class="custom-tab-button" onclick="switchTab('yorumlar-content', this)">
+                        <i class="fa fa-comments"></i> Yorumlar
+                        {% if request.args.get('status') == 'AÇIK' %}
+                        <span class="badge-info">0</span>
+                        {% else %}
+                        <span class="badge-info">3</span>
+                        {% endif %}
+                    </button>
+                </li>
+            </ul>
+            <hr class="tab-item-hr">
+            <!-- Custom Tab Content -->
+            <div id="veri-istegi-content" class="custom-tab-content active">
+                <h1 class="content-title">
+                    {{ request.args.get('title', '') }}
+                    <span class="status-badge kapali">KAPALI</span>
+                </h1>
+
+                <p class="content-description">
+                    Lorem ipsum odor amet, consectetuer adipiscing elit. Enim suscipit semper nullam sed aliquet
+                    senectus urna malesuada lobortis. Imperdiet a rhoncus sit faucibus vestibulum habitasse.
+                    Inceptos convallis duis rutrum sit purus curabitur. Luctus pellentesque gravida duis euismod
+                    neque augue tempor.
+                </p>
+
+                <h2 class="ek-bilgi-title">Ek Bilgi</h2>
+                <table class="info-table">
+                    <tr>
+                        <td>Oluşturan</td>
+                        <td>S*** G******</td>
+                    </tr>
+                    <tr>
+                        <td>Organizasyon</td>
+                        <td>Hiçbiri</td>
+                    </tr>
+                    <tr>
+                        <td>Oluşturma Tarihi</td>
+                        <td>1 yıldan fazla</td>
+                    </tr>
+                    <tr>
+                        <td>Kapatılma Tarihi</td>
+                        <td>1 yıldan fazla</td>
+                    </tr>
+                    <tr>
+                        <td>Kabul edilen veri seti</td>
+                        <td><a href="#">Link</a></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div id="yorumlar-content" class="custom-tab-content">
+                <!-- Yorumlar arasında arama yapmak için bir arama kutusu -->
+                <div class="comment-search-container" style="margin-bottom: 20px;">
+                    <input type="text" class="form-control" placeholder="Yorumlarda ara..."
+                        style="border-radius: 20px; padding: 10px 15px;">
+                </div>
+
+                <!-- Veri isteği durumuna göre farklı içerik göster -->
+                {% if request.args.get('status') == 'AÇIK' %}
+                <!-- Açık durumdaki veri istekleri için -->
+                <div class="no-comments-message">
+                    <i class="fa fa-info-circle fa-2x" style="color: #1F2B7B; margin-bottom: 15px; display: block;"></i>
+                    <p>Veri isteği açık durumda olduğu için henüz yorum yapılamamaktadır.</p>
+                </div>
+                {% else %}
+                <!-- Kapalı durumdaki veri istekleri için -->
+                <div class="comments-list">
+                    <!-- 1. Yorum -->
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <div class="comment-user">
+                                <div class="comment-user-avatar">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div class="comment-user-info">
+                                    <span class="comment-user-name">Ahmet Yılmaz</span>
+                                    <span class="comment-date">12 Şubat 2023</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Bu veri isteği sayesinde belediyemizin kültürel etkinliklerini daha kolay takip
+                            edebiliyoruz.
+                            Özellikle açık hava etkinlikleri için oluşturulan veri seti çok faydalı oldu.
+                            Teşekkür ederiz.
+                        </div>
+                    </div>
+
+                    <!-- 2. Yorum -->
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <div class="comment-user">
+                                <div class="comment-user-avatar">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div class="comment-user-info">
+                                    <span class="comment-user-name">Zeynep Kaya</span>
+                                    <span class="comment-date">10 Mart 2023</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Veri setini indirebileceğimiz bir API de sağlanırsa harika olur. Şehrimizdeki etkinlikleri
+                            görselleştiren bir uygulama yapmayı planlıyorum ve bu veri seti tam da ihtiyacım olan şeydi.
+                            Veri kalitesi çok iyi, eksik veya hatalı girdi yok.
+                        </div>
+                    </div>
+
+                    <!-- 3. Yorum -->
+                    <div class="comment-item">
+                        <div class="comment-header">
+                            <div class="comment-user">
+                                <div class="comment-user-avatar">
+                                    <i class="fa fa-user"></i>
+                                </div>
+                                <div class="comment-user-info">
+                                    <span class="comment-user-name">Mehmet Öztürk</span>
+                                    <span class="comment-date">5 Nisan 2023</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="comment-content">
+                            Etkinliklerin lokasyon bilgilerinin coğrafi koordinatlar olarak da eklenmesi iyi olmuş.
+                            Bu sayede harita üzerinde görselleştirme yapabiliyoruz. Belki ileriki aşamalarda
+                            etkinliklerin
+                            kategorilere ayrılması da düşünülebilir (müzik, tiyatro, sergi vb.).
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Yorum ekleme formu (sadece giriş yapmış kullanıcılar için) -->
+                {% if c.user %}
+                <div class="comment-form-container">
+                    <h3 class="comment-form-title">Yorum Ekle</h3>
+                    <div class="alert alert-info" style="margin-bottom: 15px;">
+                        <i class="fa fa-info-circle"></i> Yorum özelliği şu anda geliştirme aşamasındadır.
+                    </div>
+                    <form id="comment-form" onsubmit="return addComment(event)">
+                        <input type="hidden" name="title" value="{{ request.args.get('title', '') }}">
+                        <input type="hidden" name="action" value="comment">
+                        <textarea name="comment" id="comment-textarea" class="comment-textarea"
+                            placeholder="Yorumunuzu buraya yazın..." required></textarea>
+                        <button type="submit" class="comment-submit-btn">
+                            <i class="fa fa-paper-plane"></i> Gönder
+                        </button>
+                    </form>
+                </div>
+                {% else %}
+                <div class="login-message">
+                    <p>Yorum yapmak için lütfen <a href="{{ h.url_for('user.login') }}">giriş yapın</a> veya <a
+                            href="{{ h.url_for('user.register') }}">kayıt olun</a>.</p>
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function switchTab(contentId, buttonElement) {
+        // Tüm içerikleri gizle
+        document.querySelectorAll('.custom-tab-content').forEach(function (content) {
+            content.classList.remove('active');
+        });
+
+        // Tüm butonlardan active class'ı kaldır
+        document.querySelectorAll('.custom-tab-button').forEach(function (button) {
+            button.classList.remove('active');
+        });
+
+        // Seçilen içeriği göster
+        document.getElementById(contentId).classList.add('active');
+
+        // Tıklanan butonu aktif yap
+        buttonElement.classList.add('active');
+    }
+
+    function addComment(event) {
+        event.preventDefault();
+
+        // Yorum metnini al
+        const commentText = document.getElementById('comment-textarea').value;
+        if (!commentText.trim()) return false;
+
+        // Mevcut tarihi formatla
+        const now = new Date();
+        const options = { year: 'numeric', month: 'long', day: 'numeric' };
+        const formattedDate = now.toLocaleDateString('tr-TR', options);
+
+        // Kullanıcı adını al (normalde backend'den gelecek)
+        const userName = "{{ c.userobj.display_name if c.userobj else 'Kullanıcı' }}";
+
+        // Yeni yorum HTML'i oluştur
+        const newComment = document.createElement('div');
+        newComment.className = 'comment-item';
+        newComment.innerHTML = `
+            <div class="comment-header">
+                <div class="comment-user">
+                    <div class="comment-user-avatar">
+                        <i class="fa fa-user"></i>
+                    </div>
+                    <div class="comment-user-info">
+                        <span class="comment-user-name">${userName}</span>
+                        <span class="comment-date">${formattedDate}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="comment-content">
+                ${commentText}
+            </div>
+        `;
+
+        // Yorumlar listesini kontrol et ve oluştur
+        let commentsList = document.querySelector('.comments-list');
+        if (!commentsList) {
+            commentsList = document.createElement('div');
+            commentsList.className = 'comments-list';
+            document.querySelector('.no-comments-message')?.remove();
+            document.getElementById('yorumlar-content').prepend(commentsList);
+        }
+
+        // Yeni yorumu ekle
+        commentsList.prepend(newComment);
+
+        // Formu temizle
+        document.getElementById('comment-textarea').value = '';
+
+        // Yorum sayısı rozetini güncelle
+        const badge = document.querySelector('.custom-tab-button:nth-child(2) .badge-info');
+        if (badge) {
+            const currentCount = parseInt(badge.textContent) || 0;
+            badge.textContent = currentCount + 1;
+        }
+
+        return false;
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        // Mevcut JavaScript kodları
+        // ...
+    });
+
+    // Takip et/Takibi bırak işlevi
+    function toggleFollow(event) {
+        event.preventDefault();
+
+        const followButton = document.getElementById('follow-button');
+        const followerCount = document.getElementById('follower-count');
+        let count = parseInt(followerCount.innerText);
+
+        if (followButton.classList.contains('follow-button')) {
+            // Takip et butonuna tıklandığında
+            count++;
+            followerCount.innerText = count;
+
+            // Butonu "Takibi bırak" olarak değiştir
+            followButton.classList.remove('follow-button');
+            followButton.classList.add('unfollow-button');
+            followButton.innerHTML = '<i class="fa fa-times"></i> Takibi bırak';
+        } else {
+            // Takibi bırak butonuna tıklandığında
+            count = Math.max(0, count - 1); // Sayı 0'ın altına düşmesin
+            followerCount.innerText = count;
+
+            // Butonu "Takip et" olarak geri değiştir
+            followButton.classList.remove('unfollow-button');
+            followButton.classList.add('follow-button');
+            followButton.innerHTML = '<i class="fa fa-plus"></i> Takip et';
+        }
+
+        // NOT: Normalde burada sunucuya bir AJAX isteği göndererek
+        // kullanıcının takip durumu veritabanında güncellenmelidir
+    }
+</script>
+
+{% endblock %}
+
+{% block secondary %}{% endblock %}
