@@ -21,3 +21,55 @@
 .breadcrumb>.active {
     color: #666;
 }
+
+/* Status Badge Styles */
+.status-badge {
+    padding: 8px 16px;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.status-badge i {
+    font-size: 16px;
+}
+
+.status-badge.acik {
+    background-color: #4CAF50;
+    /* Yeşil */
+    color: white;
+}
+
+.status-badge.kapali {
+    background-color: #f44336;
+    /* Kırmızı */
+    color: white;
+}
+
+/* Tooltip Styles - White background with black text */
+.tooltip .tooltip-inner {
+    background-color: white;
+    color: black;
+    border: 1px solid #ccc;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Arrow color for tooltips */
+.tooltip.bs-tooltip-top .tooltip-arrow::before {
+    border-top-color: white;
+}
+
+.tooltip.bs-tooltip-bottom .tooltip-arrow::before {
+    border-bottom-color: white;
+}
+
+.tooltip.bs-tooltip-start .tooltip-arrow::before {
+    border-left-color: white;
+}
+
+.tooltip.bs-tooltip-end .tooltip-arrow::before {
+    border-right-color: white;
+}

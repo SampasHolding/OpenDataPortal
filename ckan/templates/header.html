@@ -20,30 +20,34 @@
         {% endif %}
         {% block header_account_profile %}
         <li>
-          <a href="{{ h.url_for('user.read', id=c.userobj.name) }}" class="image"
-            aria-label="{{ _('Profili görüntüle') }}" data-bs-title="{{ _('Profili görüntüle') }}"
-            data-bs-toggle="tooltip">
-            {{ h.user_image((c.user if c and c.user else ''), size=22) }}
-            <span class="username">{{ c.userobj.display_name }}</span>
+          {% if c.userobj and c.userobj.name %}
+          <a href="/user/{{ c.userobj.name }}" class="image" aria-label="{{ _('Profili görüntüle') }}"
+            data-bs-title="{{ _('Profili görüntüle') }}" data-bs-toggle="tooltip">
+            <i class="fa fa-user-circle" aria-hidden="true"></i>
           </a>
+          {% endif %}
         </li>
         {% endblock %}
         {% block header_dashboard %}
         <li>
-          <a href="{{ h.url_for('dashboard.datasets') }}" aria-label="{{ _('Kontrol paneli') }}"
-            data-bs-title="{{ _('Kontrol paneli') }}" data-bs-toggle="tooltip">
-            <i class="fa fa-tachometer" aria-hidden="true"></i>
+          {% if c.userobj %}
+          <a href="/dashboard" aria-label="{{ _('Kontrol paneli') }}" data-bs-title="{{ _('Kontrol paneli') }}"
+            data-bs-toggle="tooltip">
+            <i class="fa fa-dashboard" aria-hidden="true"></i>
             <span class="text">{{ _('Kontrol Paneli') }}</span>
           </a>
+          {% endif %}
         </li>
         {% endblock %}
         {% block header_account_settings_link %}
         <li>
-          <a href="{{ h.url_for('user.edit', id=c.userobj.name) }}" aria-label="{{ _('Profil ayarları') }}"
+          {% if c.userobj and c.userobj.name %}
+          <a href="/user/edit/{{ c.userobj.name }}" aria-label="{{ _('Profil ayarları') }}"
             data-bs-title="{{ _('Profil ayarları') }}" data-bs-toggle="tooltip">
-            <i class="fa fa-cog" aria-hidden="true"></i>
+            <i class="fa fa-gear" aria-hidden="true"></i>
             <span class="text">{{ _('Profil Ayarları') }}</span>
           </a>
+          {% endif %}
         </li>
         {% endblock %}
         {% block header_account_log_out_link %}
@@ -57,6 +61,14 @@
           </form>
         </li>
         {% endblock %}
+
+        <li class="language-selector">
+          <a href="{{ h.url_for(request.endpoint, locale='en') }}" class="lang-btn"
+            style="display: inline-block;">EN</a>
+          <a href="{{ h.url_for(request.endpoint, locale='tr') }}" class="lang-btn"
+            style="display: inline-block;">TR</a>
+        </li>
+
         {% endblock %}
       </ul>
     </div>
@@ -150,6 +162,7 @@
   .language-selector {
     display: inline-block;
     margin-right: -100px;
+    margin-left: 80px;
   }
 
   .language-selector :nth-child(1) {
@@ -171,5 +184,11 @@
 
   .lang-btn.active {
     font-weight: bold;
+  }
+
+  .data-bs-title:hover {
+    color: #fff;
+    text-decoration: none;
+    background-color: #fff;
   }
 </style>

@@ -20116,7 +20116,7 @@ td.diff_header {
 }
 
 .account-masthead {
-  min-height: 30px;
+  max-height: 42px;
   color: #fff;
   background: #1F2B7B url("../../../base/images/bg.png");
 }
@@ -20133,10 +20133,10 @@ td.diff_header {
 .account-masthead .account ul li a {
   display: block;
   text-decoration: none;
-  color: #bfd7de;
-  font-size: 13px;
+  color: #fff;
+  font-size: 12px;
   font-weight: bold;
-  padding: 0 10px;
+  padding: 5px 10px;
   line-height: 31px;
 }
 
@@ -20150,9 +20150,38 @@ td.diff_header {
 }
 
 
-.account-masthead .account ul li a span.username,
 .account-masthead .account ul li a span.text {
   margin: 0 2px 0 4px;
+}
+
+.account-masthead .account .fa-user-circle {
+  margin-left: 10px;
+  margin-top: 2px;
+  margin-right: -17px;
+  font-size: 30px;
+}
+
+.account-masthead .account .fa-gavel {
+  margin-top: 4px;
+  font-size: 22px;
+}
+
+.account-masthead .account .fa-gear {
+  margin-top: 5px;
+  font-size: 24px;
+}
+
+.account-masthead .account .fa-dashboard {
+  margin-top: 6px;
+  font-size: 24px;
+}
+
+.account-masthead .account .fa-sign-out {
+  font-size: 24px;
+  margin-top: 3px;
+  color: #fff;
+  padding: 0px;
+  font-weight: bold;
 }
 
 .account-masthead .account ul li a span.text {
@@ -20161,11 +20190,7 @@ td.diff_header {
   left: -9999px;
 }
 
-.account-masthead .account ul li a:hover {
-  color: #d9e7eb;
-  background-color: #1F2B7B;
-  text-decoration: none;
-}
+
 
 .account-masthead .account ul li a.sub {
   font-weight: 300;
@@ -20196,13 +20221,6 @@ td.diff_header {
   background-color: #C9403A;
 }
 
-.account-masthead .account.authed .image {
-  padding: 0 6px;
-}
-
-.account-masthead .account.authed .image img {
-  border-radius: 4px;
-}
 
 .masthead {
   background: #F4F9FF;

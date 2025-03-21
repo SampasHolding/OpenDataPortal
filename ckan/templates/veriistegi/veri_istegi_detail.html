@@ -89,7 +89,7 @@
     }
 
     .tab-item-hr {
-        margin: 15px 0;
+        margin-left: 0px;
         width: 100%;
         border: none;
         height: 2px;
@@ -109,7 +109,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 10px;
+        padding: 10px 0px;
     }
 
     .status-badge {
@@ -130,14 +130,14 @@
         line-height: 1.6;
         width: 88%;
         margin-bottom: 30px;
-        padding: 20px;
+        padding: 20px 0px;
     }
 
     .ek-bilgi-title {
         color: #1F2B7B;
         font-size: 18px;
         margin-bottom: 15px;
-        padding: 0 20px;
+        padding: 0 0;
     }
 
     .info-table {
@@ -307,7 +307,7 @@
         display: flex;
         gap: 10px;
         background: white;
-        padding: 10px;
+        padding: 10px 0px;
         border-radius: 8px;
         margin-bottom: 20px;
         border: none;
@@ -498,9 +498,8 @@
 {% endblock %}
 
 {% block breadcrumb_content %}
-<li><a href="{{ h.url_for('home.index') }}">{{ _('Anasayfa') }}</a></li>
 <li><a href="{{ h.url_for('home.veri_istegi') }}">{{ _('Veri İsteği') }}</a></li>
-<li class="active">{{ request.args.get('title', '') }}</li>
+<li class="active">{{ veri.title }}</li>
 {% endblock %}
 
 {% block primary_content %}
@@ -556,7 +555,8 @@
                 <li class="custom-tab-item">
                     <button class="custom-tab-button" onclick="switchTab('yorumlar-content', this)">
                         <i class="fa fa-comments"></i> Yorumlar
-                        {% if request.args.get('status') == 'AÇIK' %}
+                        {% if request.args.get('status', '').lower() == 'açık' or request.args.get('status', '').lower()
+                        == 'acik' or request.args.get('status', '').lower() == 'open' %}
                         <span class="badge-info">0</span>
                         {% else %}
                         <span class="badge-info">3</span>
@@ -569,7 +569,18 @@
             <div id="veri-istegi-content" class="custom-tab-content active">
                 <h1 class="content-title">
                     {{ request.args.get('title', '') }}
-                    <span class="status-badge kapali">KAPALI</span>
+                    <span
+                        class="status-badge {% if request.args.get('status', '').lower() == 'açık' or request.args.get('status', '').lower() == 'acik' or request.args.get('status', '').lower() == 'open' %}acik{% else %}kapali{% endif %}"
+                        style="background-color: {% if request.args.get('status', '').lower() == 'açık' or request.args.get('status', '').lower() == 'acik' or request.args.get('status', '').lower() == 'open' %}#04da289f{% else %}#{% endif %};">
+                        {% if request.args.get('status', '').lower() == 'açık' or request.args.get('status', '').lower()
+                        == 'acik' or request.args.get('status', '').lower() == 'open' %}
+
+                        <i class="fa fa-lock-open"></i> AÇIK
+                        {% else %}
+
+                        <i class="fa fa-lock"></i> KAPALI
+                        {% endif %}
+                    </span>
                 </h1>
 
                 <p class="content-description">
@@ -612,7 +623,8 @@
                 </div>
 
                 <!-- Veri isteği durumuna göre farklı içerik göster -->
-                {% if request.args.get('status') == 'AÇIK' %}
+                {% if request.args.get('status', '').lower() == 'açık' or request.args.get('status', '').lower() ==
+                'acik' or request.args.get('status', '').lower() == 'open' %}
                 <!-- Açık durumdaki veri istekleri için -->
                 <div class="no-comments-message">
                     <i class="fa fa-info-circle fa-2x" style="color: #1F2B7B; margin-bottom: 15px; display: block;"></i>
@@ -712,7 +724,12 @@
         </div>
     </div>
 </div>
+{% endblock primary_content %}
 
+{% block secondary %}{% endblock %}
+
+{% block scripts %}
+{{ super() }}
 <script>
     function switchTab(contentId, buttonElement) {
         // Tüm içerikleri gizle
@@ -829,7 +846,4 @@
         // kullanıcının takip durumu veritabanında güncellenmelidir
     }
 </script>
-
 {% endblock %}
-
-{% block secondary %}{% endblock %}

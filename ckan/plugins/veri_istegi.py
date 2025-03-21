@@ -1,14 +1,28 @@
 """
 CKAN Veri İsteği eklentisi
 """
-from flask import Blueprint, render_template, request
-import os
+from flask import Blueprint, render_template, request, redirect, Response
 import ckan.plugins as plugins
 import ckan.plugins.toolkit as toolkit
 from typing import Dict, Any, List
+import flask
+import flask.typing as ft
 
 # Blueprint'i oluştur
-veri_istegi_blueprint = Blueprint('veri_istegi', __name__)
+veri_istegi_blueprint = Blueprint('veri_istegi', __name__, url_prefix='/veri-istegi')
+
+# User routes
+user_blueprint = Blueprint('user', __name__, url_prefix='/user')
+
+@user_blueprint.route('/<id>')
+def read(id):
+    """Kullanıcı profili için error sayfası göster"""
+    return Response('<h1>Bu sayfa geçici olarak devre dışı</h1>', status=403)
+
+@user_blueprint.route('/edit/<id>')
+def edit(id):
+    """Kullanıcı profili düzenleme için error sayfası göster"""
+    return Response('<h1>Bu sayfa geçici olarak devre dışı</h1>', status=403)
 
 # Örnek veri - gerçek uygulamada veritabanından alınacak
 VERI_ISTEKLERI = [
@@ -94,8 +108,8 @@ def get_filtered_requests(status: str = 'all', sort: str = 'newest', page: int =
         'per_page': per_page
     }
 
-@veri_istegi_blueprint.route('/veri-istegi')
-def index():
+@veri_istegi_blueprint.route('/')
+def veri_istegi():
     """
     Veri İsteği sayfasını göster
     """
@@ -132,26 +146,6 @@ def index():
 
     return render_template('veriistegi/veriistegi.html', **extra_vars)
 
-@veri_istegi_blueprint.route('/veri-istegi/<title>')
-def show(title):
-    """
-    Veri İsteği detay sayfasını göster
-    """
-    # Belirtilen başlığa sahip veri isteğini bul
-    veri_istegi = next((v for v in VERI_ISTEKLERI if v['title'] == title), None)
-    
-    if not veri_istegi:
-        return render_template('error_document_template.html', 
-                              error_type="404", 
-                              error_message="Veri isteği bulunamadı")
-    
-    # Şablona gönderilecek değişkenler
-    extra_vars = {
-        'veri': veri_istegi
-    }
-    
-    return render_template('veriistegi/veri_istegi_detail.html', **extra_vars)
-
 # CKAN Plugin sınıfı
 class VeriIstegiPlugin(plugins.SingletonPlugin):
     plugins.implements(plugins.IBlueprint)
@@ -165,11 +159,11 @@ class VeriIstegiPlugin(plugins.SingletonPlugin):
 
     # IBlueprint
     def get_blueprint(self):
-        # Flask blueprint'ini döndür
-        return veri_istegi_blueprint
+        # Flask blueprint'lerini döndür
+        return [veri_istegi_blueprint, user_blueprint]
 
     # ITemplateHelpers
     def get_helpers(self):
         return {
             'get_request_count': get_request_count
-        } 
+        }
