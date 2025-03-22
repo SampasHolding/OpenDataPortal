@@ -21,8 +21,9 @@
         {% block header_account_profile %}
         <li>
           {% if c.userobj and c.userobj.name %}
-          <a href="/user/{{ c.userobj.name }}" class="image" aria-label="{{ _('Profili görüntüle') }}"
-            data-bs-title="{{ _('Profili görüntüle') }}" data-bs-toggle="tooltip">
+          <a href="{{ h.url_for('user.read', id=c.userobj.name) }}" class="image"
+            aria-label="{{ _('Profili görüntüle') }}" data-bs-title="{{ _('Profili görüntüle') }}"
+            data-bs-toggle="tooltip">
             <i class="fa fa-user-circle" aria-hidden="true"></i>
           </a>
           {% endif %}
@@ -30,9 +31,9 @@
         {% endblock %}
         {% block header_dashboard %}
         <li>
-          {% if c.userobj %}
-          <a href="/dashboard" aria-label="{{ _('Kontrol paneli') }}" data-bs-title="{{ _('Kontrol paneli') }}"
-            data-bs-toggle="tooltip">
+          {% if c.userobj and c.userobj.name %}
+          <a href="{{ h.url_for('dashboard.groups') }}" aria-label="{{ _('Kontrol paneli') }}"
+            data-bs-title="{{ _('Kontrol paneli') }}" data-bs-toggle="tooltip">
             <i class="fa fa-dashboard" aria-hidden="true"></i>
             <span class="text">{{ _('Kontrol Paneli') }}</span>
           </a>
@@ -42,7 +43,7 @@
         {% block header_account_settings_link %}
         <li>
           {% if c.userobj and c.userobj.name %}
-          <a href="/user/edit/{{ c.userobj.name }}" aria-label="{{ _('Profil ayarları') }}"
+          <a href="{{ h.url_for('user.edit', id=c.userobj.name) }}" aria-label="{{ _('Profil ayarları') }}"
             data-bs-title="{{ _('Profil ayarları') }}" data-bs-toggle="tooltip">
             <i class="fa fa-gear" aria-hidden="true"></i>
             <span class="text">{{ _('Profil Ayarları') }}</span>

@@ -1,0 +1,220 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Veri İsteği Oluştur') }}{% endblock %}
+
+{% block breadcrumb_content %}
+<li><a href="{{ h.url_for('home.veri_istegi') }}">{{ _('Veri İsteği') }}</a></li>
+<li class="active">{{ _('Veri İsteği Oluştur') }}</li>
+{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    /* Override container styles */
+    #content.container {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    /* Override row styles */
+    .row.wrapper {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        --bs-gutter-x: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    .primary {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    .module {
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    .module-content {
+        padding: 0 !important;
+        background: none !important;
+        box-shadow: none !important;
+        min-height: 800px;
+    }
+
+    .content-wrapper {
+        background-color: #F4F9FF;
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        padding: 20px 30px;
+        margin: 20px auto;
+        min-height: 500px;
+        max-width: 1300px;
+        border: 1px solid #1F2B7B;
+
+    }
+
+    .form-container {
+        display: flex;
+        flex-direction: row;
+        gap: 30px;
+    }
+
+    .info-panel {
+        flex: 0 0 280px;
+        padding: 15px;
+        background-color: #f7f9fd;
+        border-radius: 8px;
+        border: 1px solid #1F2B7B;
+    }
+
+    .info-panel h3 {
+        color: #1F2B7B;
+        margin-top: 0;
+        display: flex;
+        align-items: center;
+        font-size: 18px;
+    }
+
+    .info-panel h3 i {
+        color: #1F2B7B;
+        margin-right: 10px;
+    }
+
+    .info-panel p {
+        font-size: 14px;
+        margin-bottom: 15px;
+        color: #333;
+    }
+
+    .form-main {
+        flex: 1;
+    }
+
+    .form-title {
+        font-size: 24px;
+        color: #1F2B7B;
+        margin-bottom: 15px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .form-field {
+        margin-bottom: 25px;
+    }
+
+    .form-field label {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #333;
+    }
+
+    .form-field input[type="text"],
+    .form-field textarea {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        font-size: 16px;
+    }
+
+    .form-field textarea {
+        min-height: 160px;
+        resize: vertical;
+    }
+
+    .captcha-field {
+        margin: 25px 0;
+        padding: 15px;
+        border: 1px solid #ced4da;
+        border-radius: 5px;
+        background-color: #f8f9fa;
+        display: inline-block;
+    }
+
+    .submit-btn {
+        background-color: #1F2B7B;
+        color: white;
+        padding: 12px 24px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+        float: right;
+    }
+
+    .submit-btn:hover {
+        background-color: #161f59;
+    }
+
+    .required-asterisk {
+        color: red;
+        margin-left: 4px;
+    }
+</style>
+{% endblock %}
+
+{% block primary %}
+<div class="primary">
+    <article class="module">
+        <div class="module-content">
+            <div class="content-wrapper">
+                <h1 class="form-title">{{ _('Veri İsteği Oluştur') }}</h1>
+
+                <div class="form-container">
+                    <div class="info-panel">
+                        <h3><i class="fa fa-info-circle"></i> {{ _('Veri İsteği') }}</h3>
+                        <p>{{ _('Veri istekleri, kullanıcıların henüz platformda yayınlanmayan verileri talep etmelerine
+                            olanak tanır.') }}</p>
+
+                        <p>{{ _('Bir veri isteği oluşturmak için başlık ve açıklama bilgisi belirterek formu doldurun.')
+                            }}</p>
+
+                        <p>{{ _('Veri talepleri herkese açık olarak görüntülendiği için bu alanda kişisel verilerinizin
+                            (TC Kimlik No, İletişim Bilgileri, Eğitim Bilgileri vb.) paylaşılmaması gerekmektedir.') }}
+                        </p>
+
+                        <p>{{ _('İletmiş olduğunuz veri talepleri sitede yayınlanmadan önce onay mekanizmasından
+                            geçirilmekte ve uygun görülmesi durumunda paylaşılmaktadır.') }}</p>
+                    </div>
+
+                    <div class="form-main">
+                        <form action="{{ h.url_for('home.veri_istegi') }}" method="post">
+                            <div class="form-field">
+                                <label for="title">{{ _('Başlık:') }}<span class="required-asterisk">*</span></label>
+                                <input type="text" id="title" name="title" required>
+                            </div>
+
+                            <div class="form-field">
+                                <label for="description">{{ _('Açıklama:') }}</label>
+                                <textarea id="description" name="description"></textarea>
+                            </div>
+
+                            <div class="captcha-field">
+                                {{ _('Ben robot değilim kısmı eklenmelidir!') }}
+                            </div>
+
+                            <button type="submit" class="submit-btn">{{ _('Veri İsteği Oluştur') }}</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+</div>
+{% endblock %}
+
+{% block secondary %}{% endblock %}

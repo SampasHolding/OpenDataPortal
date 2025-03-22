@@ -106,11 +106,44 @@ def robots_txt() -> Response:
     return resp
 
 
-@home.route('/veri-istegi')
+@home.route('/veri-istegi', methods=['GET', 'POST'])
 def veri_istegi():
     """
     Veri İsteği sayfasını gösterir
     """
+    # POST isteği kontrolü - Form gönderildiğinde
+    if request.method == 'POST':
+        # Form verilerini al
+        title = request.form.get('title', '')
+        description = request.form.get('description', '')
+        
+        if not title:
+            h.flash_error(_('Başlık alanı zorunludur.'))
+            return base.render('veriistegi/veri_istegi_form.html')
+        
+        # Veri isteğini kaydet
+        from ckan.plugins.veri_istegi import VERI_ISTEKLERI
+        import datetime
+        
+        # Yeni veri isteği oluştur
+        new_request = {
+            "title": title,
+            "description": description,
+            "status": "Açık",  # Yeni istekler default olarak açık
+            "comment_count": 0,
+            "created_date": datetime.datetime.now().strftime("%d.%m.%Y")
+        }
+        
+        # Veri isteğini ekle
+        VERI_ISTEKLERI.insert(0, new_request)
+        
+        # Başarı mesajı göster
+        h.flash_success(_('Veri isteğiniz başarıyla oluşturuldu.'))
+        
+        # Ana veri isteği sayfasına yönlendir
+        redirect_url = h.url_for('home.veri_istegi')
+        return h.redirect_to(redirect_url)
+    
     # URL parametrelerini al
     sort = request.args.get('sort', 'newest')
     status = request.args.get('status', 'all')
@@ -118,6 +151,11 @@ def veri_istegi():
     page = request.args.get('page', 1, type=int)
     search_query = request.args.get('q', '')
     title = request.args.get('title', None)
+    action = request.args.get('_action', None)
+    
+    # Veri isteği ekleme sayfasını göster
+    if action == 'add':
+        return base.render('veriistegi/veri_istegi_form.html')
     
     # Detay sayfası için belirli bir veri isteği
     if title:
