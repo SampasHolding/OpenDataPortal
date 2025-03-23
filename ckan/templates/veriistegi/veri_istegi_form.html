@@ -10,7 +10,7 @@
 {% block styles %}
 {{ super() }}
 <style>
-    /* Override container styles */
+    /* Scope all styles to veri-istegi-wrapper to prevent affecting header/footer */
     #content.container {
         width: 100% !important;
         max-width: none !important;
@@ -20,7 +20,6 @@
         background: none !important;
     }
 
-    /* Override row styles */
     .row.wrapper {
         display: block !important;
         margin: 0 !important;
@@ -53,161 +52,231 @@
         min-height: 800px;
     }
 
-    .content-wrapper {
-        background-color: #F4F9FF;
-        border-radius: 15px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        padding: 20px 30px;
-        margin: 20px auto;
-        min-height: 500px;
-        max-width: 1300px;
-        border: 1px solid #1F2B7B;
-
+    .veri-istegi-content {
+        background: linear-gradient(135deg, #F4F9FF 0%, #FFFFFF 100%);
+        border-radius: 20px;
+        box-shadow: 0 8px 32px rgba(31, 43, 123, 0.1);
+        padding: 40px;
+        margin: 40px auto;
+        max-width: 1400px;
+        border: 1px solid rgba(31, 43, 123, 0.15);
     }
 
-    .form-container {
-        display: flex;
-        flex-direction: row;
-        gap: 30px;
-    }
-
-    .info-panel {
-        flex: 0 0 280px;
-        padding: 15px;
-        background-color: #f7f9fd;
-        border-radius: 8px;
-        border: 1px solid #1F2B7B;
-    }
-
-    .info-panel h3 {
+    .veri-istegi-title {
+        font-size: 32px;
         color: #1F2B7B;
-        margin-top: 0;
+        margin-bottom: 30px;
+        text-align: center;
+        font-weight: 600;
+        position: relative;
+    }
+
+    .veri-istegi-title::after {
+        content: '';
+        position: absolute;
+        bottom: -10px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 60px;
+        height: 4px;
+        background: #1F2B7B;
+        border-radius: 2px;
+    }
+
+    .veri-istegi-container {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: 40px;
+        margin-top: 40px;
+    }
+
+    .veri-istegi-info {
+        background: white;
+        padding: 30px;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(31, 43, 123, 0.08);
+        height: fit-content;
+        border: 1px solid rgba(31, 43, 123, 0.1);
+    }
+
+    .veri-istegi-info h3 {
+        color: #1F2B7B;
+        font-size: 20px;
+        font-weight: 600;
+        margin-bottom: 24px;
         display: flex;
         align-items: center;
-        font-size: 18px;
+        gap: 12px;
     }
 
-    .info-panel h3 i {
-        color: #1F2B7B;
-        margin-right: 10px;
-    }
-
-    .info-panel p {
-        font-size: 14px;
-        margin-bottom: 15px;
-        color: #333;
-    }
-
-    .form-main {
-        flex: 1;
-    }
-
-    .form-title {
+    .veri-istegi-info h3 i {
         font-size: 24px;
-        color: #1F2B7B;
-        margin-bottom: 15px;
-        padding-bottom: 10px;
-        border-bottom: 1px solid #e0e0e0;
     }
 
-    .form-field {
-        margin-bottom: 25px;
+    .veri-istegi-info p {
+        color: #4A5568;
+        font-size: 15px;
+        line-height: 1.6;
+        margin-bottom: 20px;
     }
 
-    .form-field label {
+    .veri-istegi-form {
+        background: white;
+        padding: 40px;
+        border-radius: 16px;
+        box-shadow: 0 4px 24px rgba(31, 43, 123, 0.08);
+        border: 1px solid rgba(31, 43, 123, 0.1);
+    }
+
+    .veri-istegi-field {
+        margin-bottom: 30px;
+    }
+
+    .veri-istegi-field label {
         display: block;
-        margin-bottom: 8px;
+        color: #2D3748;
         font-size: 16px;
         font-weight: 500;
-        color: #333;
+        margin-bottom: 12px;
     }
 
-    .form-field input[type="text"],
-    .form-field textarea {
+    .veri-istegi-field input[type="text"],
+    .veri-istegi-field textarea {
         width: 100%;
-        padding: 12px;
-        border: 1px solid #ced4da;
-        border-radius: 5px;
+        padding: 16px;
+        border: 2px solid rgba(31, 43, 123, 0.15);
+        border-radius: 12px;
         font-size: 16px;
+        transition: all 0.3s ease;
+        background: #F7FAFC;
     }
 
-    .form-field textarea {
-        min-height: 160px;
+    .veri-istegi-field input[type="text"]:focus,
+    .veri-istegi-field textarea:focus {
+        outline: none;
+        border-color: #1F2B7B;
+        background: white;
+        box-shadow: 0 0 0 4px rgba(31, 43, 123, 0.1);
+    }
+
+    .veri-istegi-field textarea {
+        min-height: 200px;
         resize: vertical;
     }
 
-    .captcha-field {
-        margin: 25px 0;
-        padding: 15px;
-        border: 1px solid #ced4da;
-        border-radius: 5px;
-        background-color: #f8f9fa;
-        display: inline-block;
+    .veri-istegi-actions {
+        display: flex;
+        align-items: center;
+        gap: 24px;
+        margin-top: 40px;
     }
 
-    .submit-btn {
-        background-color: #1F2B7B;
+    .veri-istegi-captcha {
+        flex: 1;
+        padding: 20px;
+        background: #F7FAFC;
+        border: 2px solid rgba(31, 43, 123, 0.15);
+        border-radius: 12px;
+        text-align: center;
+        color: #4A5568;
+    }
+
+    .veri-istegi-submit {
+        min-width: 200px;
+        padding: 16px 32px;
+        background: #1F2B7B;
         color: white;
-        padding: 12px 24px;
         border: none;
-        border-radius: 5px;
+        border-radius: 12px;
         font-size: 16px;
+        font-weight: 600;
         cursor: pointer;
-        float: right;
+        transition: all 0.3s ease;
     }
 
-    .submit-btn:hover {
-        background-color: #161f59;
+    .veri-istegi-submit:hover {
+        background: #161f59;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(31, 43, 123, 0.2);
     }
 
-    .required-asterisk {
-        color: red;
+    .veri-istegi-required {
+        color: #E53E3E;
         margin-left: 4px;
+    }
+
+    @media (max-width: 1200px) {
+        .veri-istegi-container {
+            grid-template-columns: 1fr;
+        }
+
+        .veri-istegi-content {
+            margin: 20px;
+            padding: 30px 20px;
+        }
+
+        .veri-istegi-form {
+            padding: 30px 20px;
+        }
+    }
+
+    @media (max-width: 640px) {
+        .veri-istegi-actions {
+            flex-direction: column;
+        }
+
+        .veri-istegi-submit {
+            width: 100%;
+        }
+
+        .veri-istegi-title {
+            font-size: 24px;
+        }
     }
 </style>
 {% endblock %}
 
 {% block primary %}
+
 <div class="primary">
     <article class="module">
         <div class="module-content">
-            <div class="content-wrapper">
-                <h1 class="form-title">{{ _('Veri İsteği Oluştur') }}</h1>
+            <div class="veri-istegi-content">
+                <h1 class="veri-istegi-title">{{ _('Veri İsteği Oluştur') }}</h1>
 
-                <div class="form-container">
-                    <div class="info-panel">
-                        <h3><i class="fa fa-info-circle"></i> {{ _('Veri İsteği') }}</h3>
-                        <p>{{ _('Veri istekleri, kullanıcıların henüz platformda yayınlanmayan verileri talep etmelerine
-                            olanak tanır.') }}</p>
-
-                        <p>{{ _('Bir veri isteği oluşturmak için başlık ve açıklama bilgisi belirterek formu doldurun.')
-                            }}</p>
-
-                        <p>{{ _('Veri talepleri herkese açık olarak görüntülendiği için bu alanda kişisel verilerinizin
-                            (TC Kimlik No, İletişim Bilgileri, Eğitim Bilgileri vb.) paylaşılmaması gerekmektedir.') }}
-                        </p>
-
+                <div class="veri-istegi-container">
+                    <div class="veri-istegi-info">
+                        <h3><i class="fa fa-info-circle"></i>{{ _('Veri İsteği') }}</h3>
+                        <p>{{ _('Veri istekleri, kullanıcıların henüz platformda yayınlanmayan verileri talep
+                            etmelerine olanak tanır.') }}</p>
+                        <p>{{ _('Bir veri isteği oluşturmak için başlık ve açıklama bilgisi belirterek formu
+                            doldurun.') }}</p>
+                        <p>{{ _('Veri talepleri herkese açık olarak görüntülendiği için bu alanda kişisel
+                            verilerinizin (TC Kimlik No, İletişim Bilgileri, Eğitim Bilgileri vb.) paylaşılmaması
+                            gerekmektedir.') }}</p>
                         <p>{{ _('İletmiş olduğunuz veri talepleri sitede yayınlanmadan önce onay mekanizmasından
                             geçirilmekte ve uygun görülmesi durumunda paylaşılmaktadır.') }}</p>
                     </div>
 
-                    <div class="form-main">
+                    <div class="veri-istegi-form">
                         <form action="{{ h.url_for('home.veri_istegi') }}" method="post">
-                            <div class="form-field">
-                                <label for="title">{{ _('Başlık:') }}<span class="required-asterisk">*</span></label>
+                            <div class="veri-istegi-field">
+                                <label for="title">{{ _('Başlık:') }}<span class="veri-istegi-required">*</span></label>
                                 <input type="text" id="title" name="title" required>
                             </div>
 
-                            <div class="form-field">
+                            <div class="veri-istegi-field">
                                 <label for="description">{{ _('Açıklama:') }}</label>
                                 <textarea id="description" name="description"></textarea>
                             </div>
 
-                            <div class="captcha-field">
-                                {{ _('Ben robot değilim kısmı eklenmelidir!') }}
+                            <div class="veri-istegi-actions">
+                                <div class="veri-istegi-captcha">
+                                    {{ _('Ben robot değilim kısmı eklenmelidir!') }}
+                                </div>
+                                <button type="submit" class="veri-istegi-submit">{{ _('Veri İsteği Oluştur')
+                                    }}</button>
                             </div>
-
-                            <button type="submit" class="submit-btn">{{ _('Veri İsteği Oluştur') }}</button>
                         </form>
                     </div>
                 </div>
@@ -215,6 +284,7 @@
         </div>
     </article>
 </div>
+
 {% endblock %}
 
 {% block secondary %}{% endblock %}
