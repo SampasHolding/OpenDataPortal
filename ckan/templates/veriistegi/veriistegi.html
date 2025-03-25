@@ -604,7 +604,7 @@
         </div>
 
         {% if c.user %}
-        <a href="#" class="veri-istegi-ekle-btn">
+        <a href="{{ h.url_for('veriistegi.veri_istegi_ekle') }}" class="veri-istegi-ekle-btn" rel="noopener">
             <i class="fa fa-plus"></i> {{ _('Veri İsteği Ekle') }}
         </a>
         {% endif %}

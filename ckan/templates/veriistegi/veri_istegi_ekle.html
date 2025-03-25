@@ -1,0 +1,623 @@
+{% extends "page.html" %}
+
+{% block subtitle %}{{ _('Veri İsteği Ekle') }}{% endblock %}
+
+{% block styles %}
+{{ super() }}
+<style>
+    /* Override container styles */
+    #content.container {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    /* Override row styles */
+    .row.wrapper {
+        display: block !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        --bs-gutter-x: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    .primary {
+        width: 100% !important;
+        max-width: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    .module {
+        margin: 0 !important;
+        padding: 0 !important;
+        box-shadow: none !important;
+        background: none !important;
+    }
+
+    .module-content {
+        padding: 0 !important;
+        background: none !important;
+        box-shadow: none !important;
+        min-height: 800px;
+    }
+
+    .content-wrapper {
+        position: relative;
+        padding: 20px;
+        margin-bottom: 60px;
+    }
+
+    .left-section {
+        position: absolute;
+        left: 20px;
+        top: 0;
+        width: 300px;
+    }
+
+    .veri-istegi-container {
+        margin-left: 340px;
+        padding-right: 20px;
+    }
+
+    .right-section {
+        background-color: #F4F9FF;
+        border-radius: 15px;
+        border: 1px solid #1F2B7B;
+        padding: 20px;
+    }
+
+    .clearfix::after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+
+    .info-card,
+    .menu-card {
+        margin-top: 20px;
+        background-color: #F4F9FF;
+        border-radius: 8px;
+        overflow: hidden;
+        padding: 10px;
+        border: 1px solid #1F2B7B;
+        margin-bottom: 0;
+    }
+
+    .info-card h4 {
+        color: #1F2B7B;
+        text-align: center;
+    }
+
+    .info-item-hr {
+        margin-top: 3px;
+        border: 1px solid #010836;
+
+    }
+
+    .menu-item-header-hr {
+        width: 125%;
+        margin-left: -15px;
+        border-top: 2px solid #05115f;
+    }
+
+    .menu-body {
+        padding: 0;
+    }
+
+    .menu-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .menu-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 2px 0;
+    }
+
+    .menu-item a {
+        flex-grow: 1;
+        color: #4B5563;
+        text-decoration: none;
+        display: block;
+        padding: 4px 8px;
+        border-bottom: 1px solid #E5E7EB;
+        transition: all 0.2s ease;
+        line-height: 1.2;
+    }
+
+    .counter-badge {
+        background-color: #E5E7EB;
+        color: #4B5563;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 0.8em;
+        margin-left: 8px;
+    }
+
+    .remove-filter {
+        color: #6B7280;
+        margin-left: 8px;
+        cursor: pointer;
+        display: none;
+    }
+
+    .menu-item.active .remove-filter {
+        display: inline-block;
+    }
+
+    .menu-item.active a {
+        color: #646674;
+        font-weight: 500;
+    }
+
+    .menu-item.active .counter-badge {
+        background-color: #1F2B7B;
+        color: white;
+    }
+
+
+    .acik-istek-link,
+    .kapali-istek-link {
+        font-weight: bold;
+        background-color: transparent;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+
+
+    .menu-item.active .acik-istek-link,
+    .menu-item.active .kapali-istek-link,
+    .menu-item.active .organization-link {
+        background-color: #7eb0e9dc;
+        color: #445BF0;
+        font-weight: bold;
+        border-radius: 4px;
+        padding-left: 4px;
+    }
+
+
+    .organization-link {
+        font-weight: bold;
+        background-color: transparent;
+        padding: 4px 8px;
+        border-radius: 4px;
+    }
+
+    .organization-link:hover {
+        color: #73b2fa;
+    }
+
+    .menu-list.active .organization-link {
+        background-color: #7eb0e9dc;
+        color: #445BF0;
+        font-weight: bold;
+        border-radius: 4px;
+        padding-left: 4px;
+    }
+
+
+
+    .menu-item:last-child {
+        padding-bottom: 0;
+    }
+
+    .menu-item:last-child a {
+        border-bottom: none;
+    }
+
+    .menu-item a:hover {
+        color: #7cb4f5;
+        background-color: transparent;
+        text-decoration: none;
+    }
+
+
+    .search-group {
+        display: flex;
+        border: 1px solid #979292;
+        border-radius: 10px;
+        overflow: hidden;
+        background-color: white;
+    }
+
+    .search-input {
+        flex: 1;
+        border: none;
+        padding: 10px 15px;
+        outline: none;
+    }
+
+    .search-button {
+        border: none;
+        background-color: white;
+        padding: 0 15px;
+        cursor: pointer;
+    }
+
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin: 20px 0;
+        position: relative;
+    }
+
+    .sort-button {
+        border: 1px solid #ddd;
+        background-color: white;
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 13px;
+        transition: all 0.2s ease;
+    }
+
+    .sort-button:focus,
+    .sort-button.show {
+        outline: none;
+        border-color: #445BF0;
+        box-shadow: 0 0 0 2px #9aa3df, 0 0 10px #8491e7;
+    }
+
+    .request-card {
+        background-color: transparent;
+        padding: 20px;
+        margin-bottom: 15px;
+        border-bottom: 1px solid #1F2B7B;
+    }
+
+    .request-title {
+        margin-bottom: 10px;
+    }
+
+    .request-text {
+        color: #666;
+        margin-bottom: 15px;
+    }
+
+    .request-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .status-badge {
+        padding: 5px 15px;
+        border-radius: 15px;
+        font-size: 0.9em;
+        margin-right: 10px;
+    }
+
+    .status-badge.open {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .status-badge.closed {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .request-link {
+        color: #666;
+        text-decoration: none;
+        margin-right: 15px;
+    }
+
+    .request-link:hover {
+        color: #333;
+    }
+
+    .pagination-nav {
+        margin-top: 20px;
+    }
+
+    .menu-card {
+        margin-top: 20px;
+        background-color: #F4F9FF;
+        overflow: hidden;
+        padding: 15px;
+        border: 1px solid #1F2B7B;
+        margin-bottom: 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .menu-header {
+        padding: 10px 15px;
+        margin: -15px -15px -15px 15px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #F4F9FF;
+        color: #1F2B7B;
+    }
+
+
+    .collapse-trigger {
+        color: #6B7280;
+    }
+
+    .collapse-trigger:hover {
+        color: #374151;
+    }
+
+    .menu-item {
+        padding: 4px 0;
+    }
+
+    .menu-item a {
+        color: #4B5563;
+        text-decoration: none;
+        display: block;
+        padding: 8px 0;
+        border-bottom: 1px solid #E5E7EB;
+        transition: all 0.2s ease;
+    }
+
+    .menu-item:last-child a {
+        border-bottom: none;
+    }
+
+    .menu-item a:hover {
+        color: #1F2937;
+        background-color: #F9FAFB;
+    }
+
+    .menu-body {
+        padding: 0 15px;
+    }
+
+    .pagination .page-item.active .page-link {
+        background-color: #1F2B7B;
+        border-color: #1F2B7B;
+        color: white;
+    }
+
+    .pagination .page-link {
+        color: #1F2B7B;
+    }
+
+    .pagination .page-link:hover {
+        color: #1F2B7B;
+        background-color: #e9ecef;
+    }
+
+    .dropdown-menu {
+        min-width: 60px !important;
+        width: fit-content;
+        padding: 0 0;
+        margin: 0;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+    }
+
+    .dropdown-item {
+        padding: 3px 6px;
+        font-size: 13px;
+        color: #4B5563;
+        text-align: left;
+        white-space: nowrap;
+    }
+
+    .dropdown {
+        position: static;
+    }
+
+    .dropdown-menu {
+        position: absolute;
+        right: 0;
+        top: 100%;
+        margin-top: 2px;
+    }
+
+    .breadcrumb {
+        padding: 8px 15px;
+        margin-bottom: 20px;
+        background: none;
+    }
+
+    .breadcrumb li {
+        display: inline;
+    }
+
+    .breadcrumb li+li:before {
+        padding: 0 8px;
+        color: #1F2B7B;
+    }
+
+    .breadcrumb li a {
+        color: #1F2B7B;
+        text-decoration: none;
+    }
+
+    .breadcrumb li.active {
+        color: #666;
+    }
+
+    .rotate-icon {
+        transition: transform 0.3s ease;
+    }
+
+    .fa-angle-down {
+        transition: transform 0.3s ease;
+    }
+
+    .collapse-trigger[aria-expanded="true"] .fa-angle-down {
+        transform: rotate(180deg);
+    }
+
+    .veri-istegi-ekle-btn {
+        display: block;
+        margin: 15px 0;
+        padding: 10px;
+        background-color: #1F2B7B;
+        color: white;
+        text-align: center;
+        border-radius: 8px;
+        text-decoration: none;
+        font-weight: bold;
+        transition: all 0.3s ease;
+    }
+
+    .veri-istegi-ekle-btn:hover {
+        background-color: #2D3A9C;
+        text-decoration: none;
+        color: white;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .veri-istegi-ekle-btn i {
+        margin-right: 8px;
+        font-size: 1.3em;
+        display: inline-block;
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        background-color: white;
+        color: #1F2B7B;
+        border-radius: 4px;
+    }
+
+    .veri-istegi-ekle-btn:hover i {
+        background-color: #e8ebff;
+        transform: scale(1.1);
+    }
+
+    .veri-istegi-card {
+        padding: 20px;
+        margin-bottom: 20px;
+        transition: all 0.2s ease;
+        border-bottom: 1px solid #1F2B7B;
+    }
+
+    .veri-istegi-card:hover {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    .veri-istegi-header {
+        margin-bottom: 15px;
+    }
+
+    .veri-istegi-title {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+    }
+
+    .veri-istegi-title a {
+        color: #1F2B7B;
+        text-decoration: none;
+    }
+
+    .veri-istegi-title a:hover {
+        text-decoration: underline;
+    }
+
+    .veri-istegi-desc {
+        color: #4B5563;
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+
+    .veri-istegi-footer {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+        padding-top: 15px;
+        color: #6B7280;
+        font-size: 0.9rem;
+    }
+
+    .comment-count {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .comment-count i {
+        color: #1F2B7B;
+    }
+
+    .veri-istegi-date {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .veri-istegi-date i {
+        color: #1F2B7B;
+    }
+
+    .veri-istegi-status {
+        padding: 4px 12px;
+        border-radius: 4px;
+        font-size: 0.85rem;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+    .veri-istegi-status i {
+        font-size: 0.9rem;
+    }
+
+    .veri-istegi-status.açık {
+        background-color: #DEF7EC;
+        color: #03543F;
+    }
+
+    .veri-istegi-status.kapalı {
+        background-color: #FDE8E8;
+        color: #9B1C1C;
+    }
+</style>
+{% endblock %}
+
+{% block breadcrumb_content %}
+<li><a href="{{ h.url_for('home.veri_istegi') }}">{{ _('Veri İsteği') }}</a></li>
+<li class="active">{{ _('Veri İsteği Ekle') }}</li>
+{% endblock %}
+
+
+{% block primary_content %}
+<div class="content-wrapper">
+    <!-- Sol Taraf: Bilgi ve Menüler -->
+    <div class="left-section">
+        <div class="info-card">
+            <h4>{{ _('Veri İsteği') }}</h4>
+            <hr class="info-item-hr">
+            <p>Veri isteği, kullanıcıların henüz platformda yayınlanmayan verileri talep etmesini sağlar.
+                Belirli bir veri istiyorsanız ve yayınlanan tüm veri kümeleri arasında ihtiyacınız olan veriyi
+                bulamıyorsanız, kullanıcı girişi yaparak yeni bir veri isteği oluşturabilirsiniz.</p>
+        </div>
+
+
+
+    </div>
+
+    <!-- Sağ Taraf:istek ekleme formu -->
+    <div class="veri-istegi-container">
+        <div class="right-section">
+
+
+
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block secondary %}{% endblock %}
